@@ -1,4 +1,4 @@
-# tobi-example application guide
+# legacy-tobi-example application guide
 
 This guide explains what is in the repository and how the pieces fit together. It is written for a developer, a technical lead, and a solution architect. Every behavior below is taken from a source file. A description stored on an object, a comment, or a menu label is quoted as a label. Where the repository does not prove a fact, the text says NOT EVIDENCED and the same gap is listed in [07-open-questions.md](07-open-questions.md).
 
