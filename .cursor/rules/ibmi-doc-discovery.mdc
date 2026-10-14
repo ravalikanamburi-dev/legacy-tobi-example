@@ -1,0 +1,14 @@
+---
+description: Discovery rules for documenting IBM i and similar legacy applications. Use when classifying source or writing application documentation without assuming one application's names.
+alwaysApply: false
+---
+
+# Discover the application from its files
+
+- Read the documentation config before naming directories, extensions, or the build tool.
+- Object names come from build targets. A description embedded in a file name is not the object name.
+- Resolve CCSID from the nearest configured CCSID file, then the project root. Do not reuse another directory's CCSID.
+- Resolve copies from the source directory and the project include path. Record includes that do not resolve.
+- Indicator positions, screen-step names, and status-flag values are local. Record the values written in that member.
+- A shared name prefix becomes a functional area only after calls, files, or menu text connect those objects.
+- Platform limits and source-type names belong in the config. Do not bury one application's object names in a rule or skill.

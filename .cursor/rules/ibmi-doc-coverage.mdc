@@ -1,0 +1,14 @@
+---
+description: Coverage rules for an IBM i application documentation package. Use when generating or reviewing application documentation so every source artifact is included.
+alwaysApply: false
+---
+
+# Cover the whole repository
+
+- The object list comes from the inventory, not from memory or from a sample program.
+- Every file outside the configured ignore list is classified. `unclassified` or `unassigned` stops the package.
+- A source file with no build target is still documented. Record that it is outside the build.
+- Commented-out build targets stay in the package as inactive.
+- Include copy members, tests, message files, help, commands, triggers, data areas, data queues, and globalization variants when the inventory contains them.
+- Omit a chapter only when the inventory has no members for it, and say so in the package index.
+- Do not change application source, build files, or CCSID settings while documenting.

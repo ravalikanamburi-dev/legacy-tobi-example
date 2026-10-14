@@ -1,0 +1,13 @@
+---
+description: Evidence rules for IBM i application documentation. Use when writing, reviewing, or refreshing an application documentation package from repository source.
+alwaysApply: false
+---
+
+# Document only what the repository shows
+
+- Cite a repository path for every behavior, parameter, file, column, message, and dependency.
+- If the source does not establish a fact, write the configured unknown marker (default `NOT EVIDENCED`) and add an open question.
+- Keep object text, comments, and menu literals separate from observed behavior. A comment is a claim, not proof.
+- When two artifacts disagree, record both and mark the disagreement. Do not pick a winner silently.
+- Do not invent libraries, job schedules, user profiles, authority, or a business purpose from an object name.
+- A build substitution such as a library token is not a runtime library unless the repository gives the concrete value.
