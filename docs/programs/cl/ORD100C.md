@@ -15,6 +15,13 @@ Unresolved. No menu label and no header comment state a purpose for this member.
 
 ## Entry and calls
 
+Parameters written in the member. Status: Confirmed.
+
+| Line | Name | Text |
+| --- | --- | --- |
+| 3 | CUID | PGM        PARM(&CUID) |
+
+
 Unresolved. The source member does not contain a statement of this kind.
 
 ## Files and interfaces
@@ -23,16 +30,16 @@ Unresolved. The source member does not contain a statement of this kind.
 
 ## Processing logic
 
-Commands written in the member:
+CL commands below are in the order written in the member. That written order is Confirmed. It is not a claim about overrides that exist outside this member.
 
-| Line | Command |
-| --- | --- |
-| 4 | INCLUDE    SRCSTMF('included.clle') |
-| 5 | DLTF       FILE(QTEMP/DETORD) |
-| 6 | MONMSG     MSGID(CPF0000) |
-| 7 | CRTDUPOBJ  OBJ(DETORD) FROMLIB(*LIBL) OBJTYPE(*FILE) + |
-| 10 | OVRDBF     FILE(TMPDETORD) TOFILE(QTEMP/DETORD) |
-| 11 | CRTORD     CUID(&CUID) |
+| Step | Line | Command |
+| --- | --- | --- |
+| 1 | 4 | INCLUDE    SRCSTMF('included.clle') |
+| 2 | 5 | DLTF       FILE(QTEMP/DETORD) |
+| 3 | 6 | MONMSG     MSGID(CPF0000) |
+| 4 | 7 | CRTDUPOBJ  OBJ(DETORD) FROMLIB(*LIBL) OBJTYPE(*FILE) + |
+| 5 | 10 | OVRDBF     FILE(TMPDETORD) TOFILE(QTEMP/DETORD) |
+| 6 | 11 | CRTORD     CUID(&CUID) |
 
 ## Business rules and branches
 
@@ -44,7 +51,13 @@ Unresolved. The source member does not contain a statement of this kind.
 
 ## Data operations
 
-Unresolved. No file declaration or SQL statement was extracted.
+File and data commands written in the member. Status: Confirmed.
+
+| Line | Command |
+| --- | --- |
+| 5 | DLTF       FILE(QTEMP/DETORD) |
+| 7 | CRTDUPOBJ  OBJ(DETORD) FROMLIB(*LIBL) OBJTYPE(*FILE) + |
+| 10 | OVRDBF     FILE(TMPDETORD) TOFILE(QTEMP/DETORD) |
 
 ## Error handling
 

@@ -8,17 +8,17 @@ Counting method for on-disk files: `os.walk` from the repository root, skipping 
 
 | Item | Count |
 | --- | --- |
-| inventoried | 549 |
-| on_disk_excluding_git_objects | 548 |
+| inventoried | 551 |
+| on_disk_excluding_git_objects | 550 |
 | program_specs_required | 76 |
-| tracker_rows | 549 |
+| tracker_rows | 551 |
 | unresolved_dependency_rows | 13 |
 
 ## Tracker status
 
 | Status | Files |
 | --- | --- |
-| Completed | 538 |
+| Completed | 540 |
 | Not Applicable | 6 |
 | Partially Completed | 5 |
 

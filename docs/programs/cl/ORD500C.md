@@ -17,6 +17,13 @@ Header comments are claims, not proof of behavior:
 
 ## Entry and calls
 
+Parameters written in the member. Status: Confirmed.
+
+| Line | Name | Text |
+| --- | --- | --- |
+| 1 | ORD | PGM PARM(&ORD &PATH) |
+
+
 Unresolved. The source member does not contain a statement of this kind.
 
 ## Files and interfaces
@@ -25,11 +32,11 @@ Unresolved. The source member does not contain a statement of this kind.
 
 ## Processing logic
 
-Commands written in the member:
+CL commands below are in the order written in the member. That written order is Confirmed. It is not a claim about overrides that exist outside this member.
 
-| Line | Command |
-| --- | --- |
-| 5 | CHGVAR     VAR(&FILENAME) VALUE('Custord' *CAT &ORD + |
+| Step | Line | Command |
+| --- | --- | --- |
+| 1 | 5 | CHGVAR     VAR(&FILENAME) VALUE('Custord' *CAT &ORD + |
 
 ## Business rules and branches
 
@@ -41,7 +48,7 @@ Unresolved. The source member does not contain a statement of this kind.
 
 ## Data operations
 
-Unresolved. No file declaration or SQL statement was extracted.
+Unresolved. No file declaration, file command, or SQL statement was extracted.
 
 ## Error handling
 

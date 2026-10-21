@@ -15,6 +15,14 @@ Unresolved. No menu label and no header comment state a purpose for this member.
 
 ## Entry and calls
 
+Parameters written in the member. Status: Confirmed.
+
+| Line | Name | Text |
+| --- | --- | --- |
+| 3 | CUID | PGM        PARM(&CUID) |
+| 6 | CUID | CALL ORD100C PARM(&CUID) |
+
+
 Unresolved. The source member does not contain a statement of this kind.
 
 ## Files and interfaces
@@ -23,11 +31,11 @@ Unresolved. The source member does not contain a statement of this kind.
 
 ## Processing logic
 
-Commands written in the member:
+CL commands below are in the order written in the member. That written order is Confirmed. It is not a claim about overrides that exist outside this member.
 
-| Line | Command |
-| --- | --- |
-| 6 | CALL ORD100C PARM(&CUID) |
+| Step | Line | Command |
+| --- | --- | --- |
+| 1 | 6 | CALL ORD100C PARM(&CUID) |
 
 ## Business rules and branches
 
@@ -39,7 +47,7 @@ Unresolved. The source member does not contain a statement of this kind.
 
 ## Data operations
 
-Unresolved. No file declaration or SQL statement was extracted.
+Unresolved. No file declaration, file command, or SQL statement was extracted.
 
 ## Error handling
 

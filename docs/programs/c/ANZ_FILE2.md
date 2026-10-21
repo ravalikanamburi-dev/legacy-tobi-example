@@ -18,6 +18,8 @@ Header comments are claims, not proof of behavior:
 
 ## Entry and calls
 
+Unresolved. No parameter declaration was extracted.
+
 Unresolved. The source member does not contain a statement of this kind.
 
 ## Files and interfaces
@@ -26,7 +28,7 @@ Unresolved. The source member does not contain a statement of this kind.
 
 ## Processing logic
 
-Unresolved. No subroutine, procedure, or command sequence was extracted. Read the member before assuming an execution order.
+Unresolved. No subroutine, procedure, data structure, or command sequence was extracted. Read the member before assuming an execution order.
 
 ## Business rules and branches
 
@@ -116,7 +118,7 @@ Embedded SQL text. The calculation is the statement itself.
 
 ## Data operations
 
-SQL statements are listed under Validations and calculations.
+SQL statements are listed under Validations and calculations. Status: Confirmed as statement text.
 
 ## Error handling
 

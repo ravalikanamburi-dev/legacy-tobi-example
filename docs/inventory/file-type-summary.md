@@ -2,7 +2,7 @@
 
 Counting method: recursive walk of the working tree from the repository root. The `.git` object store is not expanded. One inventory row records that directory. Every other file, including hidden project files and IDE binaries, is one row. Size is `stat` size in bytes. Classification uses the file name and extension. It does not infer a language from a directory name.
 
-Files counted in the first walk: **543** plus the `.git` directory row.
+Files counted in the first walk: **549** plus the `.git` directory row.
 
 ## Counts by category
 
@@ -42,7 +42,7 @@ Files counted in the first walk: **543** plus the `.git` directory row.
 | physical-file | 12 |
 | printer-file | 1 |
 | project-metadata | 1 |
-| prose | 316 |
+| prose | 321 |
 | sql-file | 1 |
 | sql-function | 2 |
 | sql-procedure | 1 |
@@ -54,7 +54,7 @@ Files counted in the first walk: **543** plus the `.git` directory row.
 | system-trigger | 3 |
 | test-metadata | 1 |
 | tooling | 4 |
-| unclassified | 10 |
+| unclassified | 11 |
 | vcs | 1 |
 | workstation-customizing | 1 |
 

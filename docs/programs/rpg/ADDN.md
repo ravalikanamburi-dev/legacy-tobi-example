@@ -15,6 +15,8 @@ Unresolved. No menu label and no header comment state a purpose for this member.
 
 ## Entry and calls
 
+Unresolved. No parameter declaration was extracted.
+
 Unresolved. The source member does not contain a statement of this kind.
 
 ## Files and interfaces
@@ -23,7 +25,7 @@ Unresolved. The source member does not contain a statement of this kind.
 
 ## Processing logic
 
-Unresolved. No subroutine, procedure, or command sequence was extracted. Read the member before assuming an execution order.
+Unresolved. No subroutine, procedure, data structure, or command sequence was extracted. Read the member before assuming an execution order.
 
 ## Business rules and branches
 
@@ -35,7 +37,7 @@ Unresolved. The source member does not contain a statement of this kind.
 
 ## Data operations
 
-Unresolved. No file declaration or SQL statement was extracted.
+Unresolved. No file declaration, file command, or SQL statement was extracted.
 
 ## Error handling
 
@@ -45,7 +47,7 @@ Unresolved. The source member does not contain a statement of this kind.
 
 | Name | Kind | Status | Where | Resolved path |
 | --- | --- | --- | --- | --- |
-| CPY01 | copy | Resolved | QRPGSRC/ADDN.RPG:1 | docs/application/copy-members/CPY01-copy-member.md |
+| CPY01 | copy | Resolved | QRPGSRC/ADDN.RPG:1 | QPROTOSRC/CPY01.RPGINC |
 
 ## Side effects
 

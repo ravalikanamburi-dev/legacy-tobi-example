@@ -26,7 +26,7 @@ No job description, job schedule, user profile, or authority list is in the chec
 
 ## What was counted
 
-The first inventory walk counted **543** files, plus the `.git` directory. After the documentation files were added, the coverage script counted **548** files on disk and **549** inventory rows. The script reported no structural failures. Thirteen dependency rows remain open and are listed under [What the checkout does not contain](#what-the-checkout-does-not-contain).
+The coverage script `scripts/validate_documentation_coverage.py` counted **550** files on disk. The `.git` object store is one extra inventory row, so the inventory has **551** rows. The script reported **0** structural failures. Tracker rows match the inventory: **540** Completed, **5** Partially Completed, **6** Not Applicable. The five partial rows are members that name a missing or unresolved dependency. Open dependency rows: **13**. They are listed under [What the checkout does not contain](#what-the-checkout-does-not-contain).
 
 Application source categories present:
 
@@ -226,21 +226,119 @@ These names are written in source. Their implementations are not members here. D
 | `RPGUNIT`, `QDEVTOOLS` | `iproj.json` library list | External libraries named for the build |
 | `QUSCRTUS`, `QUSPTRUS`, `QCMDEXC` | `QPROTOSRC/APICALL-Prototypes_for_Ibm_API.RPGLEINC` | IBM APIs. Prototypes only |
 
-## Where the detailed pages are
+## Documentation package
 
-Seventy-six program and build-script specifications are indexed in [programs/README.md](programs/README.md). Each page has identity, purpose, calls, files, processing statements, branches, SQL, error handling, dependencies, and the source path with line numbers. Database fields, relationships, and the program-to-file matrix are under [database/database-object-catalog.md](database/database-object-catalog.md).
+These are the points required for this checkout. Each row names the file that holds that point and the result of the latest coverage run. A source fact the checkout does not contain stays Unresolved in the linked file. The same map is also in [audit/prompt-coverage.md](audit/prompt-coverage.md).
 
-| Topic | Page |
+Latest run of `python scripts/validate_documentation_coverage.py`: **551** inventory rows, **550** files on disk, **76** program specifications, **23** business rules, **131** dependency rows, **13** unresolved or missing dependency rows, **814** database field or statement rows, **0** validation failures. PDF generation is outstanding. The Markdown package is the delivered form.
+
+### Repository inventory
+
+Every file in the working tree has an inventory row. Columns are relative path, extension, category, size, documentation requirement, processing status, generated documentation path, and notes.
+
+| Point | Page | Result |
+| --- | --- | --- |
+| Full inventory | [inventory/source-file-inventory.md](inventory/source-file-inventory.md) and [inventory/source-file-inventory.csv](inventory/source-file-inventory.csv) | Confirmed. 551 rows |
+| Counting method and category totals | [inventory/file-type-summary.md](inventory/file-type-summary.md) | Confirmed |
+| Binary and unparsed files | Inventory rows whose requirement is `not-applicable` | Confirmed. 6 tracker rows are Not Applicable |
+
+### Existing documentation audit
+
+`docs/application/` is the earlier package. This run did not delete it.
+
+| Point | Page | Result |
+| --- | --- | --- |
+| Review of README files and existing docs | [audit/existing-documentation-review.md](audit/existing-documentation-review.md) | Confirmed |
+| Local link check | [audit/documentation-link-audit.csv](audit/documentation-link-audit.csv) | Confirmed. The coverage script reported no broken local links |
+| Missing, empty, and incomplete pages | [audit/documentation-gaps.md](audit/documentation-gaps.md) | Confirmed |
+| Earlier package | [application/README.md](application/README.md) | Kept |
+
+### Program specifications
+
+There are **76** specifications, indexed in [programs/README.md](programs/README.md). The index groups them into `programs/rpg/`, `programs/cl/`, `programs/cobol/`, `programs/c/`, `programs/cpp/`, and `programs/other/`. DDS fields and keys are in the database catalog.
+
+Each program page has these sections. A section that says Unresolved means that member did not contain that kind of statement.
+
+| Point | Section |
 | --- | --- |
-| File inventory | [inventory/source-file-inventory.md](inventory/source-file-inventory.md) |
-| File-type counts | [inventory/file-type-summary.md](inventory/file-type-summary.md) |
-| Business rules | [business-rules/business-rules-catalog.md](business-rules/business-rules-catalog.md) |
-| Menu flow | [flows/application-functional-flows.md](flows/application-functional-flows.md) |
-| Order-entry flow | [flows/program-processing-flows.md](flows/program-processing-flows.md) |
-| Dependencies | [dependencies/dependency-validation-report.md](dependencies/dependency-validation-report.md) |
-| Architecture | [architecture/application-architecture.md](architecture/application-architecture.md) |
-| Build model | [architecture/build-and-execution-model.md](architecture/build-and-execution-model.md) |
-| Coverage script result | [audit/coverage-validation-report.md](audit/coverage-validation-report.md) |
-| Earlier narrative package | [application/README.md](application/README.md) |
+| 1. Name and source path | Identity |
+| 2. Purpose and business context | Purpose. Menu text and comments are Partially Confirmed |
+| 3. Entry point, parameters, callers and callees | Entry and calls |
+| 4. Inputs, outputs, files, and interfaces | Files and interfaces |
+| 5. Processing steps | Processing logic. CL command order is the written order. RPG subroutine order is not an execution trace |
+| 6. Branches | Business rules and branches |
+| 7. Validations and calculations | Validations and calculations |
+| 8. File and SQL modes | Data operations |
+| 9. Errors, monitors, and messages | Error handling |
+| 10. Calls, copies, prototypes, and data objects | Dependencies |
+| 11. Changes to application data | Side effects |
+| 12. Build or runtime assumptions | Build assumptions |
+| 13. Path and line range | Traceability |
+| 14. Confidence and open questions | Evidence status |
 
-The coverage script `scripts/validate_documentation_coverage.py` has been run against this checkout. It reported no broken documentation links and no missing program specifications. The thirteen open dependency rows remain, so this document does not claim that every program named by the menu has source here.
+### Business rules and workflows
+
+| Point | Page | Result |
+| --- | --- | --- |
+| Rules with unique IDs | [business-rules/business-rules-catalog.md](business-rules/business-rules-catalog.md) and [business-rules/business-rules-catalog.csv](business-rules/business-rules-catalog.csv) | Confirmed. 23 rules. Each row has condition, logic, outcome, objects, source location, and evidence status |
+| Operator workflow from the menu | [flows/application-functional-flows.md](flows/application-functional-flows.md) | Partially Confirmed. The diagram quotes menu labels |
+| Technical path for order entry | [flows/program-processing-flows.md](flows/program-processing-flows.md) | Confirmed through `ORD100`. `ORD500` is Unresolved |
+
+### Database, DDS, and data mapping
+
+| Point | Page | Result |
+| --- | --- | --- |
+| Physical files, logical files, display files, printer files, and SQL objects | [database/database-object-catalog.md](database/database-object-catalog.md) | Confirmed |
+| Fields, lengths, text, and keys | [database/database-field-definitions.csv](database/database-field-definitions.csv) | Confirmed where the DDS writes them. Reference fields are Partially Confirmed. 814 field or statement rows |
+| `REF`, `PFILE`, and `JFILE` relationships | [database/file-and-table-relationships.md](database/file-and-table-relationships.md) | Confirmed for extracted keywords |
+| Programs that declare or change data | [database/program-data-access-matrix.csv](database/program-data-access-matrix.csv) | Confirmed for declarations and embedded SQL text |
+| Input-to-output mappings | [database/data-mappings.md](database/data-mappings.md) | Confirmed only for SQL statements the source writes |
+
+### Dependencies
+
+A name that is not a filename was searched against object names, member stems, and `Rules.mk` targets before it was marked missing. Status values are Resolved, External Dependency, Dynamic Reference, Unresolved, and Confirmed Missing.
+
+| Point | Page | Result |
+| --- | --- | --- |
+| Referenced name, file, location, type, evidence, and status | [dependencies/dependency-inventory.csv](dependencies/dependency-inventory.csv) | Confirmed. 131 rows |
+| How each status was decided | [dependencies/dependency-validation-report.md](dependencies/dependency-validation-report.md) | Confirmed |
+| Open names | [dependencies/missing-dependencies.csv](dependencies/missing-dependencies.csv) | 13 rows. Listed above |
+| Call diagram | [dependencies/dependency-diagrams.md](dependencies/dependency-diagrams.md) | Confirmed for the edges named there |
+
+### Architecture and build
+
+| Point | Page | Result |
+| --- | --- | --- |
+| Application structure and entry points | This file and [architecture/application-architecture.md](architecture/application-architecture.md) | Confirmed from source and `Rules.mk` |
+| Component catalog | [architecture/component-catalog.md](architecture/component-catalog.md) | Confirmed |
+| External names and IBM-supplied interfaces | [architecture/integration-overview.md](architecture/integration-overview.md) | Confirmed as names. Their behavior outside this checkout is Unresolved |
+| Build command, directory order, and CCSID files | [architecture/build-and-execution-model.md](architecture/build-and-execution-model.md) | Confirmed. Job schedules and user profiles are Unresolved |
+
+### Tracker and later sessions
+
+| Point | Page | Result |
+| --- | --- | --- |
+| Rule for later documentation sessions | [../.cursor/rules/legacy-documentation.mdc](../.cursor/rules/legacy-documentation.mdc) | Confirmed |
+| One tracker row per inventoried file | [tracking/documentation-execution-tracker.csv](tracking/documentation-execution-tracker.csv) | Confirmed. 551 rows |
+| Batch summary | [tracking/documentation-execution-summary.md](tracking/documentation-execution-summary.md) | Confirmed. 540 Completed, 5 Partially Completed, 6 Not Applicable |
+
+### Coverage validation
+
+| Point | Page | Result |
+| --- | --- | --- |
+| Repeatable check | [../scripts/validate_documentation_coverage.py](../scripts/validate_documentation_coverage.py) | Confirmed |
+| Report | [audit/coverage-validation-report.md](audit/coverage-validation-report.md) | Passed. 0 failures |
+| Result rows | [audit/coverage-validation-results.csv](audit/coverage-validation-results.csv) | Written by that run |
+
+The script checks inventory disposition, program-specification headings, empty files, local Markdown links, source-path citations, tracker statuses, and the unresolved-dependency list. It returns a non-zero exit code when a structural check fails. Unresolved dependencies are reported and do not by themselves fail the run when they are listed in `missing-dependencies.csv`.
+
+### Final review
+
+| Point | Page | Result |
+| --- | --- | --- |
+| Quality review | [final-review/documentation-quality-review.md](final-review/documentation-quality-review.md) | Confirmed |
+| Coverage counts | [final-review/final-coverage-summary.md](final-review/final-coverage-summary.md) | Counts in this README match the latest validation report |
+| Remaining gaps and follow-up | [final-review/unresolved-gaps-and-next-actions.md](final-review/unresolved-gaps-and-next-actions.md) | 13 open dependency rows. PDF is not generated |
+| Requirement-to-file map | [audit/prompt-coverage.md](audit/prompt-coverage.md) | Confirmed |
+
+The thirteen open dependency rows remain, so this document does not claim that every program named by the menu has source here. Application source was not modified to produce these pages.

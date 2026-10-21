@@ -165,7 +165,7 @@ function linesOf(text) {
 function parseSource(text, category) {
   const rows = linesOf(text);
   const rpg = /rpg/i.test(category || "");
-  const out = { files: [], calls: [], copies: [], subs: [], sql: [], branches: [], errors: [], controls: [], commands: [], comments: [], indicators: [], procs: [] };
+  const out = { files: [], calls: [], copies: [], subs: [], sql: [], branches: [], errors: [], controls: [], commands: [], comments: [], indicators: [], procs: [], parms: [], structures: [] };
   rows.forEach((line, index) => {
     const n = index + 1;
     const trimmed = line.trim();
@@ -196,6 +196,13 @@ function parseSource(text, category) {
     if (begsr) out.subs.push({ line: n, name: begsr[1] });
     const proc = trimmed.match(/\bdcl-proc\s+([A-Za-z0-9_]+)/i);
     if (proc) out.procs.push({ line: n, name: proc[1] });
+    const parm = trimmed.match(/\bPARM\s*\(\s*&?([A-Za-z0-9_]+)/i);
+    if (parm) out.parms.push({ line: n, name: parm[1], text: trimmed.slice(0, 160) });
+    if (/\bpi\b/i.test(trimmed) && /^d\s+/i.test(trimmed)) out.parms.push({ line: n, name: (trimmed.match(/^d\s+([A-Za-z0-9_]+)/i) || [])[1] || "pi", text: trimmed.slice(0, 160) });
+    if (spec === "d" && /\bds\b/i.test(trimmed)) {
+      const dsName = (trimmed.match(/^d\s+([A-Za-z0-9_]+)/i) || [])[1];
+      if (dsName) out.structures.push({ line: n, name: dsName, text: trimmed.slice(0, 160) });
+    }
     if (/exec\s+sql/i.test(trimmed)) out.sql.push({ line: n, text: trimmed.slice(0, 220) });
     if (/^\s*(if|when|select)\b/i.test(trimmed) || /\bif\s+/i.test(trimmed) && trimmed.length < 180) {
       if (/^\s*(if|when)\b/i.test(trimmed) || /\bwhen\b/i.test(trimmed)) out.branches.push({ line: n, text: trimmed.slice(0, 180) });
@@ -316,7 +323,8 @@ function resolveName(raw, index, kind) {
   }
   const key = name.split("/").pop().replace(/\.[^.]+$/, "").toUpperCase();
   if (index.byName.has(key)) {
-    const hit = index.byName.get(key)[0];
+    const hits = index.byName.get(key).filter((item) => item.rel && item.rel.indexOf("docs/") !== 0);
+    const hit = hits[0] || index.byName.get(key)[0];
     return { status: "Resolved", target: hit.rel || hit.path || "" };
   }
   if (IBM.has(key)) return { status: "External Dependency", target: "" };
@@ -366,20 +374,30 @@ function specDoc(file, parsed, index) {
       ]
     ),
     Purpose: purposeBits.join("\n\n") + "\n",
-    "Entry and calls": listOrUnresolved(parsed.calls, (items) => table(["Line", "Kind", "Name"], items.map((item) => [item.line, item.kind, item.name]))),
+    "Entry and calls": [
+      parsed.parms.length ? "Parameters written in the member. Status: Confirmed.\n\n" + table(["Line", "Name", "Text"], parsed.parms.map((item) => [item.line, item.name, item.text])) : "Unresolved. No parameter declaration was extracted.",
+      listOrUnresolved(parsed.calls, (items) => "Calls and prototypes. Status: Confirmed as names written in the member. Behavior of a callee with no source remains Unresolved.\n\n" + table(["Line", "Kind", "Name"], items.map((item) => [item.line, item.kind, item.name]))),
+    ].join("\n\n"),
     "Files and interfaces": listOrUnresolved(parsed.files, (items) => table(["Line", "Name", "Declaration"], items.map((item) => [item.line, item.name, item.text]))),
-    "Processing logic": (parsed.subs.length || parsed.procs.length || parsed.commands.length)
+    "Processing logic": (parsed.subs.length || parsed.procs.length || parsed.commands.length || parsed.structures.length)
       ? [
-          parsed.subs.length ? "Subroutines, in source order. Order is not an execution trace.\n\n" + table(["Line", "Subroutine"], parsed.subs.map((item) => [item.line, item.name])) : "",
+          /^(clle|clp)$/.test(file.category) && parsed.commands.length ? "CL commands below are in the order written in the member. That written order is Confirmed. It is not a claim about overrides that exist outside this member.\n\n" + table(["Step", "Line", "Command"], parsed.commands.map((item, index) => [index + 1, item.line, item.text])) : "",
+          parsed.subs.length ? "Subroutines, in source order. This order is not an execution trace. Status: Confirmed as names present in the member.\n\n" + table(["Line", "Subroutine"], parsed.subs.map((item) => [item.line, item.name])) : "",
           parsed.procs.length ? table(["Line", "Procedure"], parsed.procs.map((item) => [item.line, item.name])) : "",
-          parsed.commands.length ? "Commands written in the member:\n\n" + table(["Line", "Command"], parsed.commands.map((item) => [item.line, item.text])) : "",
+          parsed.structures.length ? "Data structures declared in the member. Status: Confirmed.\n\n" + table(["Line", "Name", "Text"], parsed.structures.map((item) => [item.line, item.name, item.text])) : "",
+          !/^(clle|clp)$/.test(file.category) && parsed.commands.length ? "Commands written in the member:\n\n" + table(["Line", "Command"], parsed.commands.map((item) => [item.line, item.text])) : "",
         ].filter(Boolean).join("\n")
-      : "Unresolved. No subroutine, procedure, or command sequence was extracted. Read the member before assuming an execution order.\n",
+      : "Unresolved. No subroutine, procedure, data structure, or command sequence was extracted. Read the member before assuming an execution order.\n",
     "Business rules and branches": listOrUnresolved(parsed.branches.slice(0, 25), (items) => "Conditions copied from the member. A condition is not a business-rule name.\n\n" + table(["Line", "Condition"], items.map((item) => [item.line, item.text]))),
     "Validations and calculations": listOrUnresolved(parsed.sql, (items) => "Embedded SQL text. The calculation is the statement itself.\n\n" + table(["Line", "Statement"], items.map((item) => [item.line, item.text]))),
-    "Data operations": parsed.files.length
-      ? "File declarations show the intended mode in the specification text. They do not prove every runtime read or write.\n\n" + table(["Line", "Declaration"], parsed.files.map((item) => [item.line, item.text]))
-      : (parsed.sql.length ? "SQL statements are listed under Validations and calculations.\n" : "Unresolved. No file declaration or SQL statement was extracted.\n"),
+    "Data operations": (parsed.files.length || parsed.commands.some((item) => /\b(DLTF|CRTDUPOBJ|OVRDBF|CPYF|CRTDTAARA|CHGDTAARA|RTVDTAARA)\b/i.test(item.text)))
+      ? [
+          parsed.files.length ? "File declarations show the mode written in the specification. They do not prove every runtime read or write. Status: Confirmed for the declaration.\n\n" + table(["Line", "Declaration"], parsed.files.map((item) => [item.line, item.text])) : "",
+          parsed.commands.filter((item) => /\b(DLTF|CRTDUPOBJ|OVRDBF|CPYF|CRTDTAARA|CHGDTAARA|RTVDTAARA)\b/i.test(item.text)).length
+            ? "File and data commands written in the member. Status: Confirmed.\n\n" + table(["Line", "Command"], parsed.commands.filter((item) => /\b(DLTF|CRTDUPOBJ|OVRDBF|CPYF|CRTDTAARA|CHGDTAARA|RTVDTAARA)\b/i.test(item.text)).map((item) => [item.line, item.text]))
+            : "",
+        ].filter(Boolean).join("\n")
+      : (parsed.sql.length ? "SQL statements are listed under Validations and calculations. Status: Confirmed as statement text.\n" : "Unresolved. No file declaration, file command, or SQL statement was extracted.\n"),
     "Error handling": listOrUnresolved(parsed.errors, (items) => table(["Line", "Statement"], items.map((item) => [item.line, item.text]))),
     Dependencies: deps.length ? table(["Name", "Kind", "Status", "Where", "Resolved path"], deps) : "Unresolved. No call, copy, or file name was extracted.\n",
     "Side effects": parsed.files.some((item) => /\b(o|u|uf|cf)\b/i.test(item.text)) || parsed.sql.some((item) => /\b(update|insert|delete)\b/i.test(item.text))
@@ -709,7 +727,7 @@ function main() {
     }
     if (file.size < 40) gapRows.push({ from: file.rel, issue: "short page", detail: "size " + file.size });
   });
-  writeMd("docs/audit/existing-documentation-review.md", "# Existing documentation review\n\nReviewed Markdown present in the checkout before the new package files were considered, plus pages already under `docs/`.\n\n`docs/application/` is an earlier source-cited package. This run does not delete it. `docs/README.md` links to it.\n\nRoot `README.md` is two lines: a sample IBM i application using `iproj.json`, changed for a COMMON demo. It does not describe programs. That gap is filled by `docs/README.md` and the program specifications.\n\nLink check rows: " + linkRows.length + ". Broken local links in this pass: " + linkRows.filter((row) => row.exists === "no").length + ".\n");
+  writeMd("docs/audit/existing-documentation-review.md", "# Existing documentation review\n\nReviewed Markdown present in the checkout before the new package files were considered, plus pages already under `docs/`.\n\n`docs/application/` is an earlier source-cited package. This run does not delete it. `docs/README.md` links to it.\n\nRoot `README.md` describes the repository as a sample IBM i application and links to `docs/README.md`. The application narrative is `docs/README.md`.\n\nLink check rows: " + linkRows.length + ". Broken local links in this pass: " + linkRows.filter((row) => row.exists === "no").length + ".\n");
   writeCsv("docs/audit/documentation-link-audit.csv", ["from", "target", "resolved", "exists"], linkRows);
   writeMd("docs/audit/documentation-gaps.md", "# Documentation gaps\n\nGaps below are limits of the source or of this pass. They are not filled by inference.\n\n- `ORD500`, `CUS200`, and `pro203` are named and have no source member.\n- Query Manager objects `CUSQRY`, `CUSQRYFMT`, and `ARTQRY`, and user space `SAMLOG`, are named on the menu and are absent.\n- `&lib1` is a substitution token. The production library name is Unresolved.\n- `SAMPLE.BNDDIR` source and `QBNDSRC/Rules.mk` disagree.\n- `QTRGSRC` is outside the root build list.\n- Subroutine order is not an execution trace.\n- Broken links found while auditing existing Markdown are in `documentation-link-audit.csv` where `exists` is `no`.\n\n" + (gapRows.length ? table(["From", "Issue", "Detail"], gapRows.slice(0, 80).map((row) => [row.from, row.issue, row.detail])) : "No short pages and no broken links were recorded in the pre-generation scan.\n"));
 
@@ -724,7 +742,123 @@ function main() {
   });
   writeMd("docs/programs/README.md", specIndexMd);
 
-  writeMd("docs/README.md", "# Legacy application documentation\n\nThis package documents the checkout of `legacy-tobi-example`. Evidence is the source tree. Status words are Confirmed, Inferred, Partially Confirmed, and Unresolved.\n\n| Topic | Page |\n| --- | --- |\n| Inventory | [inventory/source-file-inventory.md](inventory/source-file-inventory.md) |\n| File types | [inventory/file-type-summary.md](inventory/file-type-summary.md) |\n| Existing docs audit | [audit/existing-documentation-review.md](audit/existing-documentation-review.md) |\n| Program specifications | [programs/README.md](programs/README.md) |\n| Business rules | [business-rules/business-rules-catalog.md](business-rules/business-rules-catalog.md) |\n| Functional flows | [flows/application-functional-flows.md](flows/application-functional-flows.md) |\n| Processing flows | [flows/program-processing-flows.md](flows/program-processing-flows.md) |\n| Database | [database/database-object-catalog.md](database/database-object-catalog.md) |\n| Dependencies | [dependencies/dependency-validation-report.md](dependencies/dependency-validation-report.md) |\n| Architecture | [architecture/application-architecture.md](architecture/application-architecture.md) |\n| Components | [architecture/component-catalog.md](architecture/component-catalog.md) |\n| Integrations | [architecture/integration-overview.md](architecture/integration-overview.md) |\n| Build | [architecture/build-and-execution-model.md](architecture/build-and-execution-model.md) |\n| Tracker | [tracking/documentation-execution-summary.md](tracking/documentation-execution-summary.md) |\n| Earlier package | [application/README.md](application/README.md) |\n\nCoverage is not claimed until `python scripts/validate_documentation_coverage.py` has been run. Results belong in `audit/coverage-validation-report.md`.\n");
+  const readmePath = path.join(ROOT, "docs/README.md");
+  const keepReadme = fs.existsSync(readmePath) && fs.readFileSync(readmePath, "utf8").indexOf("# Legacy IBM i application") === 0;
+  if (!keepReadme) {
+  writeMd("docs/README.md", "# Legacy application documentation\n\nThis package documents the checkout of `legacy-tobi-example`. Evidence is the source tree. Status words are Confirmed, Inferred, Partially Confirmed, and Unresolved.\n\n| Topic | Page |\n| --- | --- |\n| Inventory | [inventory/source-file-inventory.md](inventory/source-file-inventory.md) |\n| File types | [inventory/file-type-summary.md](inventory/file-type-summary.md) |\n| Existing docs audit | [audit/existing-documentation-review.md](audit/existing-documentation-review.md) |\n| Requirement coverage | [audit/prompt-coverage.md](audit/prompt-coverage.md) |\n| Program specifications | [programs/README.md](programs/README.md) |\n| Business rules | [business-rules/business-rules-catalog.md](business-rules/business-rules-catalog.md) |\n| Functional flows | [flows/application-functional-flows.md](flows/application-functional-flows.md) |\n| Processing flows | [flows/program-processing-flows.md](flows/program-processing-flows.md) |\n| Database | [database/database-object-catalog.md](database/database-object-catalog.md) |\n| Dependencies | [dependencies/dependency-validation-report.md](dependencies/dependency-validation-report.md) |\n| Architecture | [architecture/application-architecture.md](architecture/application-architecture.md) |\n| Components | [architecture/component-catalog.md](architecture/component-catalog.md) |\n| Integrations | [architecture/integration-overview.md](architecture/integration-overview.md) |\n| Build | [architecture/build-and-execution-model.md](architecture/build-and-execution-model.md) |\n| Tracker | [tracking/documentation-execution-summary.md](tracking/documentation-execution-summary.md) |\n| Earlier package | [application/README.md](application/README.md) |\n\nCoverage is not claimed until `python scripts/validate_documentation_coverage.py` has been run. Results belong in `audit/coverage-validation-report.md`.\n");
+  }
+
+  writeMd("docs/audit/prompt-coverage.md", `# Documentation requirement coverage
+
+This page maps each required documentation point to the file that carries it. Status is Confirmed when that file exists and contains source-backed content. A source fact that the checkout does not contain stays Unresolved in the linked page. No Inferred business behavior is added to close a gap.
+
+## Phase 1 — Repository inventory
+
+| Requirement | Where | Status |
+| --- | --- | --- |
+| Recursive inventory of the working tree | [../inventory/source-file-inventory.csv](../inventory/source-file-inventory.csv) | Confirmed |
+| Counting method recorded | [../inventory/file-type-summary.md](../inventory/file-type-summary.md) | Confirmed |
+| Path, extension, category, size, requirement, status, doc path, notes | CSV columns in the inventory | Confirmed |
+| Binary and unparsed files given a disposition | Inventory rows with requirement \`not-applicable\` | Confirmed |
+
+## Phase 2 — Audit existing documentation
+
+| Requirement | Where | Status |
+| --- | --- | --- |
+| Review of existing README and docs | [existing-documentation-review.md](existing-documentation-review.md) | Confirmed |
+| Local link audit | [documentation-link-audit.csv](documentation-link-audit.csv) | Confirmed |
+| Missing, empty, and incomplete pages | [documentation-gaps.md](documentation-gaps.md) | Confirmed |
+| Prior package kept | [../application/README.md](../application/README.md) | Confirmed |
+
+## Phase 3 — Program specifications
+
+Each applicable program page uses these sections. A section that says Unresolved means the member did not contain that kind of statement.
+
+| Required point | Section on each program page |
+| --- | --- |
+| 1. Name and source path | Identity |
+| 2. Purpose and business context | Purpose. Menu text is Partially Confirmed. Comments are claims. |
+| 3. Entry, parameters, callers | Entry and calls |
+| 4. Inputs, outputs, files, interfaces | Files and interfaces |
+| 5. Step-by-step processing | Processing logic. CL command order is the written order. RPG subroutine order is not an execution trace. |
+| 6. Business rules and branches | Business rules and branches |
+| 7. Validations and calculations | Validations and calculations |
+| 8. Database and file modes | Data operations |
+| 9. Error handling | Error handling |
+| 10. Calls, procedures, copies, data objects | Dependencies |
+| 11. Side effects | Side effects |
+| 12. Build or runtime assumptions | Build assumptions |
+| 13. Path and line | Traceability |
+| 14. Confidence and open questions | Evidence status |
+
+Language folders that this checkout actually contains: \`docs/programs/rpg/\`, \`docs/programs/cl/\`, \`docs/programs/cobol/\`, \`docs/programs/c/\`, \`docs/programs/cpp/\`, \`docs/programs/other/\`. Index: [../programs/README.md](../programs/README.md).
+
+DDS record formats, fields, and keys are in the database catalog, not duplicated as program pages.
+
+## Phase 4 — Business rules and flows
+
+| Requirement | Where | Status |
+| --- | --- | --- |
+| Unique rule IDs | [../business-rules/business-rules-catalog.csv](../business-rules/business-rules-catalog.csv) | Confirmed |
+| Condition, logic, outcome, objects, source, evidence | Same CSV columns | Confirmed |
+| User workflow from the menu | [../flows/application-functional-flows.md](../flows/application-functional-flows.md) | Partially Confirmed. The diagram quotes menu labels. |
+| Technical path for order entry | [../flows/program-processing-flows.md](../flows/program-processing-flows.md) | Confirmed through \`ORD100\`. \`ORD500\` is Unresolved. |
+
+## Phase 5 — Database and DDS
+
+| Requirement | Where | Status |
+| --- | --- | --- |
+| Physical, logical, display, printer, SQL objects | [../database/database-object-catalog.md](../database/database-object-catalog.md) | Confirmed |
+| Fields, lengths, text, keys | [../database/database-field-definitions.csv](../database/database-field-definitions.csv) | Confirmed where the DDS writes them. Reference fields are Partially Confirmed. |
+| REF, PFILE, JFILE relationships | [../database/file-and-table-relationships.md](../database/file-and-table-relationships.md) | Confirmed for extracted keywords |
+| Programs that declare or update data | [../database/program-data-access-matrix.csv](../database/program-data-access-matrix.csv) | Confirmed for declarations and embedded SQL text |
+| Input-to-output mappings | [../database/data-mappings.md](../database/data-mappings.md) | Confirmed only for SQL statements the source writes |
+
+## Phase 6 — Dependencies
+
+| Requirement | Where | Status |
+| --- | --- | --- |
+| Referenced name, file, location, type, evidence, status | [../dependencies/dependency-inventory.csv](../dependencies/dependency-inventory.csv) | Confirmed |
+| Statuses Resolved, External Dependency, Dynamic Reference, Unresolved, Confirmed Missing | [../dependencies/dependency-validation-report.md](../dependencies/dependency-validation-report.md) | Confirmed |
+| Names searched against members and build targets before marked missing | Same report | Confirmed |
+| Unresolved and missing names | [../dependencies/missing-dependencies.csv](../dependencies/missing-dependencies.csv) | Confirmed as an open list |
+| Diagram of confirmed calls | [../dependencies/dependency-diagrams.md](../dependencies/dependency-diagrams.md) | Confirmed for the edges named there |
+
+## Phase 7 — Architecture
+
+| Requirement | Where | Status |
+| --- | --- | --- |
+| Application overview | [../README.md](../README.md) and [../architecture/application-architecture.md](../architecture/application-architecture.md) | Confirmed |
+| Component catalog | [../architecture/component-catalog.md](../architecture/component-catalog.md) | Confirmed |
+| Integrations | [../architecture/integration-overview.md](../architecture/integration-overview.md) | Confirmed |
+| Build and execution | [../architecture/build-and-execution-model.md](../architecture/build-and-execution-model.md) | Confirmed. Job schedules and user profiles are Unresolved. |
+
+## Phase 8 — Rule and tracker
+
+| Requirement | Where | Status |
+| --- | --- | --- |
+| Cursor rule for later sessions | \`../../.cursor/rules/legacy-documentation.mdc\` | Confirmed |
+| Per-file tracker | [../tracking/documentation-execution-tracker.csv](../tracking/documentation-execution-tracker.csv) | Confirmed |
+| Batch summary | [../tracking/documentation-execution-summary.md](../tracking/documentation-execution-summary.md) | Confirmed |
+
+## Phase 9 — Coverage validation
+
+| Requirement | Where | Status |
+| --- | --- | --- |
+| Repeatable script | \`../../scripts/validate_documentation_coverage.py\` | Confirmed |
+| Report and result CSV | [coverage-validation-report.md](coverage-validation-report.md), [coverage-validation-results.csv](coverage-validation-results.csv) | Confirmed after the script is run |
+
+## Phase 10 — Final review
+
+| Requirement | Where | Status |
+| --- | --- | --- |
+| Quality review | [../final-review/documentation-quality-review.md](../final-review/documentation-quality-review.md) | Confirmed |
+| Coverage summary | [../final-review/final-coverage-summary.md](../final-review/final-coverage-summary.md) | Confirmed |
+| Remaining gaps | [../final-review/unresolved-gaps-and-next-actions.md](../final-review/unresolved-gaps-and-next-actions.md) | Confirmed |
+| PDF | Not generated | Outstanding. The Markdown package is the delivered form. |
+
+Application source files are not modified by this generation.
+`);
 
   const second = [];
   walk(ROOT, second);

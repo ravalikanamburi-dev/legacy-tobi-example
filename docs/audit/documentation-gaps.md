@@ -10,4 +10,6 @@ Gaps below are limits of the source or of this pass. They are not filled by infe
 - Subroutine order is not an execution trace.
 - Broken links found while auditing existing Markdown are in `documentation-link-audit.csv` where `exists` is `no`.
 
-No short pages and no broken links were recorded in the pre-generation scan.
+| From | Issue | Detail |
+| --- | --- | --- |
+| docs/README.md | broken local link | audit/prompt-coverage.md |

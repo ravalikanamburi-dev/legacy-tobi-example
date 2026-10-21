@@ -43,21 +43,21 @@ flowchart TD
 
 | Option | Group | Label | Action | Status | Resolved |
 | --- | --- | --- | --- | --- | --- |
-| 1 | Master files | Work with Articles | cmd call ART200 | Resolved | docs/application/programs/ART200-PGM.md |
+| 1 | Master files | Work with Articles | cmd call ART200 | Resolved | QRPGLESRC/ART200-Work_with_article.PGM.SQLRPGLE |
 | 2 | Master files | Work with Customers | cmd call CUS200 | Confirmed Missing |  |
-| 3 | Master files | Work with Customer Orders | cmd call ORD201 | Resolved | docs/application/programs/ORD201-PGM.md |
-| 4 | Master files | Work with Providers | cmd call pro200 | Resolved | docs/application/modules/PRO200-MODULE.md |
-| 5 | Master files | Display Providers | cmd call pro201 | Resolved | docs/application/modules/PRO201-MODULE.md |
-| 6 | Master files | Create a Customer Order. | cmd call ORD100C2 | Resolved | docs/application/programs/ORD100C2-PGM.md |
+| 3 | Master files | Work with Customer Orders | cmd call ORD201 | Resolved | QRPGLESRC/ORD201.PGM.SQLRPGLE |
+| 4 | Master files | Work with Providers | cmd call pro200 | Resolved | QILESRC/PRO200.ILEPGM |
+| 5 | Master files | Display Providers | cmd call pro201 | Resolved | QCBLSRC/PRO201.CBLLE |
+| 6 | Master files | Create a Customer Order. | cmd call ORD100C2 | Resolved | QCLSRC/ORD100C2.PGM.CLLE |
 | 10 | Reports | Article to purchase | cmd call pro203 | Confirmed Missing |  |
 | 11 | Reports |  | cmd STRQMQRY QMQRY(ARTQRY)  | Unresolved |  |
-| 12 | Reports |  | cmd call par200 | Resolved | docs/application/modules/PAR200-MODULE.md |
-| 20 | Utilities | Work with Parameters | cmd call par200 | Resolved | docs/application/modules/PAR200-MODULE.md |
-| 21 | Utilities | Work with countries | cmd call cou200 | Resolved | docs/application/programs/COU200-PGM.md |
-| 80 | Utilities | Reset LASTORDNO | cmd call ord900 | Resolved | docs/application/programs/ORD900-PGM.md |
-| 81 | Utilities | Reset Order dates to current | cmd call ord901 | Resolved | docs/application/programs/ORD901-PGM.md |
-| 82 | Utilities | Work with IFS output | cmd call par201 | Resolved | docs/application/modules/PAR201-MODULE.md |
-| 83 | Utilities | Work with IFS output | cmd call par201 | Resolved | docs/application/modules/PAR201-MODULE.md |
+| 12 | Reports |  | cmd call par200 | Resolved | QRPGLESRC/PAR200.RPGLE |
+| 20 | Utilities | Work with Parameters | cmd call par200 | Resolved | QRPGLESRC/PAR200.RPGLE |
+| 21 | Utilities | Work with countries | cmd call cou200 | Resolved | QRPGSRC/COU200.RPG |
+| 80 | Utilities | Reset LASTORDNO | cmd call ord900 | Resolved | QRPGLESRC/ORD900.PGM.RPGLE |
+| 81 | Utilities | Reset Order dates to current | cmd call ord901 | Resolved | QRPGLESRC/ORD901.PGM.SQLRPGLE |
+| 82 | Utilities | Work with IFS output | cmd call par201 | Resolved | QCLSRC/PAR201.CLLE |
+| 83 | Utilities | Work with IFS output | cmd call par201 | Resolved | QCLSRC/PAR201.CLLE |
 | 84 | Utilities | Display Application log | cmd adspusrspc samlog | Unresolved |  |
 | 90 | Utilities | Signoff | cmd signoff | Unresolved |  |
 
