@@ -1,0 +1,16 @@
+kind,check,detail
+note,unresolved-dependency,"DDS-FPROV from QCBLSRC/PRO201.CBLLE (Unresolved)"
+note,unresolved-dependency,"DDS-CTL01-O from QCBLSRC/PRO201.CBLLE (Unresolved)"
+note,unresolved-dependency,"DDS-CTL01-I from QCBLSRC/PRO201.CBLLE (Unresolved)"
+note,unresolved-dependency,"DDS-SFL01-O from QCBLSRC/PRO201.CBLLE (Unresolved)"
+note,unresolved-dependency,"DDS-SFL01-I from QCBLSRC/PRO201.CBLLE (Unresolved)"
+note,unresolved-dependency,"DDS-FMT02-O from QCBLSRC/PRO201.CBLLE (Unresolved)"
+note,unresolved-dependency,"DDS-FMT02-I from QCBLSRC/PRO201.CBLLE (Unresolved)"
+note,unresolved-dependency,"ORD500 from QRPGLESRC/ORD100.PGM.RPGLE (Confirmed Missing)"
+note,unresolved-dependency,"ORD500 from QRPGLESRC/ORD101.PGM.RPGLE (Confirmed Missing)"
+note,unresolved-dependency,"ORD500 from QRPGLESRC/ORD200.PGM.SQLRPGLE (Confirmed Missing)"
+note,unresolved-dependency,"ORD500 from QRPGLESRC/ORD201.PGM.SQLRPGLE (Confirmed Missing)"
+note,unresolved-dependency,"CUS200 from QPNLSRC/SAMMNU-Main_menu_application_SAMPLE.MENUSRC (Confirmed Missing)"
+note,unresolved-dependency,"pro203 from QPNLSRC/SAMMNU-Main_menu_application_SAMPLE.MENUSRC (Confirmed Missing)"
+summary,failures,0
+summary,inventoried,549

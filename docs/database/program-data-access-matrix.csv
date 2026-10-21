@@ -1,0 +1,206 @@
+program,source,data_object,mode,status
+vat300,functionsVAT/vat300.rpgle:12,VATDEF,Dcl-F VATDEF     Keyed usropn;,Confirmed
+verifysql,QCBLSRC/verifysql.sqlcblle:23,EXEC SQL,embedded-sql,Partially Confirmed
+verifysql,QCBLSRC/verifysql.sqlcblle:29,EXEC SQL SET :A = 5 END-EXEC.,embedded-sql,Partially Confirmed
+verifysql,QCBLSRC/verifysql.sqlcblle:30,EXEC SQL SET :B = 2 END-EXEC.,embedded-sql,Partially Confirmed
+verifysql,QCBLSRC/verifysql.sqlcblle:31,EXEC SQL SET :D = -5 END-EXEC.,embedded-sql,Partially Confirmed
+verifysqlp,QCBLSRC/verifysqlp.pgm.sqlcblle:23,EXEC SQL,embedded-sql,Partially Confirmed
+verifysqlp,QCBLSRC/verifysqlp.pgm.sqlcblle:29,EXEC SQL SET :A = 5 END-EXEC.,embedded-sql,Partially Confirmed
+verifysqlp,QCBLSRC/verifysqlp.pgm.sqlcblle:30,EXEC SQL SET :B = 2 END-EXEC.,embedded-sql,Partially Confirmed
+verifysqlp,QCBLSRC/verifysqlp.pgm.sqlcblle:31,EXEC SQL SET :D = -5 END-EXEC.,embedded-sql,Partially Confirmed
+ART200,QRPGLESRC/ART200-Work_with_article.PGM.SQLRPGLE:4,article2,farticle2  if   e           k disk    rename(farti:farti2),Confirmed
+ART200,QRPGLESRC/ART200-Work_with_article.PGM.SQLRPGLE:5,article1,farticle1  uf a e           k disk,Confirmed
+ART200,QRPGLESRC/ART200-Work_with_article.PGM.SQLRPGLE:6,art200d,fart200d   cf   e             workstn,Confirmed
+ART200,QRPGLESRC/ART200-Work_with_article.PGM.SQLRPGLE:329,exec sql set option commit = *none;,embedded-sql,Partially Confirmed
+ART200,QRPGLESRC/ART200-Work_with_article.PGM.SQLRPGLE:330,exec sql select ARTICLE_INFORMATION into :text,embedded-sql,Partially Confirmed
+ART200,QRPGLESRC/ART200-Work_with_article.PGM.SQLRPGLE:368,exec sql update artiinf,embedded-sql,Partially Confirmed
+ART200,QRPGLESRC/ART200-Work_with_article.PGM.SQLRPGLE:372,exec sql insert into artiinf,embedded-sql,Partially Confirmed
+ART201,QRPGLESRC/ART201-Work_with_article.PGM.RPGLE:4,artipro1,fartipro1  uf a e           k disk    block(*no),Confirmed
+ART201,QRPGLESRC/ART201-Work_with_article.PGM.RPGLE:5,art201d,fart201d   cf   e             workstn,Confirmed
+ART202,QRPGLESRC/ART202-Function_Article.PGM.RPGLE:4,artiprov,fartiprov  uf a e           k disk,Confirmed
+ART202,QRPGLESRC/ART202-Function_Article.PGM.RPGLE:5,art202d,fart202d   cf   e             workstn,Confirmed
+ART300,QRPGLESRC/ART300-Function_Article.RPGLE:3,ARTICLE1,FARTICLE1  if   e           k disk    usropn,Confirmed
+ART301,QRPGLESRC/ART301.SQLRPGLE:3,art301d,Fart301d   CF   E             WORKSTN,Confirmed
+ART301,QRPGLESRC/ART301.SQLRPGLE:90,exec sql close c1;,embedded-sql,Partially Confirmed
+ART301,QRPGLESRC/ART301.SQLRPGLE:116,exec sql prepare s1 from :stm;,embedded-sql,Partially Confirmed
+ART301,QRPGLESRC/ART301.SQLRPGLE:117,exec sql declare C1 cursor for s1;,embedded-sql,Partially Confirmed
+ART301,QRPGLESRC/ART301.SQLRPGLE:118,exec sql open c1;,embedded-sql,Partially Confirmed
+ART301,QRPGLESRC/ART301.SQLRPGLE:119,exec sql fetch c1 into :data;,embedded-sql,Partially Confirmed
+ART301,QRPGLESRC/ART301.SQLRPGLE:135,exec sql fetch c1 into :data;,embedded-sql,Partially Confirmed
+ART301,QRPGLESRC/ART301.SQLRPGLE:163,exec sql close c1;,embedded-sql,Partially Confirmed
+ART301,QRPGLESRC/ART301.SQLRPGLE:218,exec sql close c1;,embedded-sql,Partially Confirmed
+ART301,QRPGLESRC/ART301.SQLRPGLE:223,exec sql close c1;,embedded-sql,Partially Confirmed
+ART302,QRPGLESRC/ART302.SQLRPGLE:14,EXEC SQL,embedded-sql,Partially Confirmed
+COU300,QRPGLESRC/COU300.RPGLE:3,COUNTRY,FCOUNTRY   if   e           k disk    usropn,Confirmed
+COU301,QRPGLESRC/COU301.RPGLE:3,country,Fcountry   IF   E           K DISK,Confirmed
+COU301,QRPGLESRC/COU301.RPGLE:4,countr1,Fcountr1   IF   E           K DISK,Confirmed
+COU301,QRPGLESRC/COU301.RPGLE:6,cou301d,Fcou301d   CF   E             WORKSTN,Confirmed
+CUS300,QRPGLESRC/CUS300.RPGLE:3,CUSTOME1,FCUSTOME1  if   e           k disk    usropn,Confirmed
+CUS301,QRPGLESRC/CUS301.SQLRPGLE:3,cus301d,Fcus301d   CF   E             WORKSTN,Confirmed
+CUS301,QRPGLESRC/CUS301.SQLRPGLE:89,exec sql close c1;,embedded-sql,Partially Confirmed
+CUS301,QRPGLESRC/CUS301.SQLRPGLE:116,exec sql prepare s1 from :stm;,embedded-sql,Partially Confirmed
+CUS301,QRPGLESRC/CUS301.SQLRPGLE:117,exec sql declare C1 cursor for s1;,embedded-sql,Partially Confirmed
+CUS301,QRPGLESRC/CUS301.SQLRPGLE:118,exec sql open c1;,embedded-sql,Partially Confirmed
+CUS301,QRPGLESRC/CUS301.SQLRPGLE:119,exec sql fetch c1 into :data;,embedded-sql,Partially Confirmed
+CUS301,QRPGLESRC/CUS301.SQLRPGLE:135,exec sql fetch c1 into :data;,embedded-sql,Partially Confirmed
+CUS301,QRPGLESRC/CUS301.SQLRPGLE:213,exec sql close c1;,embedded-sql,Partially Confirmed
+CUS301,QRPGLESRC/CUS301.SQLRPGLE:218,exec sql close c1;,embedded-sql,Partially Confirmed
+FAM300,QRPGLESRC/FAM300.RPGLE:3,FAMILLY,FFAMILLY   if   e           k disk    usropn,Confirmed
+FAM301,QRPGLESRC/FAM301.RPGLE:3,familly,Ffamilly   IF   E           K DISK,Confirmed
+FAM301,QRPGLESRC/FAM301.RPGLE:4,famill1,Ffamill1   IF   E           K DISK,Confirmed
+FAM301,QRPGLESRC/FAM301.RPGLE:6,fam301d,Ffam301d   CF   E             WORKSTN,Confirmed
+LOG100,QRPGLESRC/LOG100.PGM.RPGLE:3,parameter,fparameter if   e           k disk,Confirmed
+ORD100,QRPGLESRC/ORD100.PGM.RPGLE:7,order,forder     o    e             disk,Confirmed
+ORD100,QRPGLESRC/ORD100.PGM.RPGLE:8,detord,fdetord    o    e           k disk,Confirmed
+ORD100,QRPGLESRC/ORD100.PGM.RPGLE:9,Tmpdetord,fTmpdetord uf a e           k disk    rename(fdeto:tmprec),Confirmed
+ORD100,QRPGLESRC/ORD100.PGM.RPGLE:10,ord100d,ford100d   cf   e             workstn,Confirmed
+ORD101,QRPGLESRC/ORD101.PGM.RPGLE:5,order1,forder1    uf   e           k disk,Confirmed
+ORD101,QRPGLESRC/ORD101.PGM.RPGLE:6,detord1,fdetord1   uf   e           k disk,Confirmed
+ORD101,QRPGLESRC/ORD101.PGM.RPGLE:7,ord101d,ford101d   cf   e             workstn,Confirmed
+ORD200,QRPGLESRC/ORD200.PGM.SQLRPGLE:4,order1,forder1    uf   e           k disk,Confirmed
+ORD200,QRPGLESRC/ORD200.PGM.SQLRPGLE:5,detord1,fdetord1   uf   e           k disk,Confirmed
+ORD200,QRPGLESRC/ORD200.PGM.SQLRPGLE:6,custome1,fcustome1  if   e           k disk,Confirmed
+ORD200,QRPGLESRC/ORD200.PGM.SQLRPGLE:7,ord200d,ford200d   cf   e             workstn,Confirmed
+ORD200,QRPGLESRC/ORD200.PGM.SQLRPGLE:102,exec sql declare c1 cursor for,embedded-sql,Partially Confirmed
+ORD200,QRPGLESRC/ORD200.PGM.SQLRPGLE:111,exec sql open c1;,embedded-sql,Partially Confirmed
+ORD200,QRPGLESRC/ORD200.PGM.SQLRPGLE:118,"exec sql fetch c1 into :orid, :oryear, :datord,",embedded-sql,Partially Confirmed
+ORD200,QRPGLESRC/ORD200.PGM.SQLRPGLE:123,"exec sql fetch c1 into :orid, :oryear, :datord,",embedded-sql,Partially Confirmed
+ORD200,QRPGLESRC/ORD200.PGM.SQLRPGLE:126,exec sql close c1;,embedded-sql,Partially Confirmed
+ORD201,QRPGLESRC/ORD201.PGM.SQLRPGLE:4,order1,forder1    uf   e           k disk,Confirmed
+ORD201,QRPGLESRC/ORD201.PGM.SQLRPGLE:5,custome1,fcustome1  if   e           k disk,Confirmed
+ORD201,QRPGLESRC/ORD201.PGM.SQLRPGLE:6,article1,farticle1  if   e           k disk,Confirmed
+ORD201,QRPGLESRC/ORD201.PGM.SQLRPGLE:7,detord1,fdetord1   uf   e           k disk,Confirmed
+ORD201,QRPGLESRC/ORD201.PGM.SQLRPGLE:8,ord201d,ford201d   cf   e             workstn,Confirmed
+ORD201,QRPGLESRC/ORD201.PGM.SQLRPGLE:95,exec sql declare c1 cursor for,embedded-sql,Partially Confirmed
+ORD201,QRPGLESRC/ORD201.PGM.SQLRPGLE:104,exec sql open c1;,embedded-sql,Partially Confirmed
+ORD201,QRPGLESRC/ORD201.PGM.SQLRPGLE:115,"exec sql fetch c1 into :orid, :oryear, :datord,",embedded-sql,Partially Confirmed
+ORD201,QRPGLESRC/ORD201.PGM.SQLRPGLE:151,exec sql close c1;,embedded-sql,Partially Confirmed
+ORD201,QRPGLESRC/ORD201.PGM.SQLRPGLE:155,exec sql close c1;,embedded-sql,Partially Confirmed
+ORD201,QRPGLESRC/ORD201.PGM.SQLRPGLE:289,exec sql close c1;,embedded-sql,Partially Confirmed
+ORD202,QRPGLESRC/ORD202.PGM.RPGLE:4,custome1,fcustome1  if   e           k disk,Confirmed
+ORD202,QRPGLESRC/ORD202.PGM.RPGLE:5,article1,farticle1  if   e           k disk,Confirmed
+ORD202,QRPGLESRC/ORD202.PGM.RPGLE:6,detord1,fdetord1   if   e           k disk,Confirmed
+ORD202,QRPGLESRC/ORD202.PGM.RPGLE:7,order1,forder1    if   e           k disk,Confirmed
+ORD202,QRPGLESRC/ORD202.PGM.RPGLE:8,ord202d,ford202d   cf   e             workstn,Confirmed
+ORD700,QRPGLESRC/ORD700.PGM.RPGLE:3,article1,Farticle1  UF   E           K DISK,Confirmed
+ORD900,QRPGLESRC/ORD900.PGM.RPGLE:1,order1,forder1    if   e           k disk,Confirmed
+ORD901,QRPGLESRC/ORD901.PGM.SQLRPGLE:1,order,forder     UF   E             DISK,Confirmed
+ORD901,QRPGLESRC/ORD901.PGM.SQLRPGLE:8,exec sql select max(ordate)  into :LastDate from order;,embedded-sql,Partially Confirmed
+ORD901,QRPGLESRC/ORD901.PGM.SQLRPGLE:39,exec sql Update detord d set odyear = (select oryear,embedded-sql,Partially Confirmed
+ORD901,QRPGLESRC/ORD901.PGM.SQLRPGLE:43,exec sql  UPDATE CUSTOMER  C SET CULASTORD =,embedded-sql,Partially Confirmed
+PAR200,QRPGLESRC/PAR200.RPGLE:2,parameter,fparameter uf a e           k disk,Confirmed
+PAR200,QRPGLESRC/PAR200.RPGLE:3,par200d,fpar200d   cf   e             workstn,Confirmed
+PAR300,QRPGLESRC/PAR300.RPGLE:3,PARAMETER,FPARAMETER if   e           k disk    usropn,Confirmed
+PRO200,QRPGLESRC/PRO200.RPGLE:2,provide1,fprovide1  uf a e           k disk,Confirmed
+PRO200,QRPGLESRC/PRO200.RPGLE:3,pro200d,fpro200d   cf   e             workstn,Confirmed
+PRO202,QRPGLESRC/PRO202.SQLRPGLE:2,provide1,fprovide1  if   e           k disk,Confirmed
+PRO202,QRPGLESRC/PRO202.SQLRPGLE:3,pro202d,fpro202d   cf   e             workstn,Confirmed
+PRO202,QRPGLESRC/PRO202.SQLRPGLE:82,exec sql declare c2 cursor for,embedded-sql,Partially Confirmed
+PRO202,QRPGLESRC/PRO202.SQLRPGLE:90,exec sql open c2;,embedded-sql,Partially Confirmed
+PRO202,QRPGLESRC/PRO202.SQLRPGLE:98,"exec sql fetch c2 into :arid, :ardesc, :arstock, :arminqty,",embedded-sql,Partially Confirmed
+PRO202,QRPGLESRC/PRO202.SQLRPGLE:105,"exec sql fetch c2 into :arid, :ardesc, :arstock, :arminqty,",embedded-sql,Partially Confirmed
+PRO202,QRPGLESRC/PRO202.SQLRPGLE:186,exec sql close c2;,embedded-sql,Partially Confirmed
+PRO300,QRPGLESRC/PRO300.RPGLE:3,PROVIDE1,FPROVIDE1  if   e           k disk    usropn,Confirmed
+CSTNAME,QRPGSRC/CSTNAME.SQLRPG:3,C/EXEC SQL,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:31,exec sql include SQLCA;,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:33,exec sql begin declare section;,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:93,exec sql end declare section;,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:177,EXEC SQL WHENEVER SQLERROR GO TO sql_error;,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:208,EXEC SQL WHENEVER SQLERROR CONTINUE;,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:224,EXEC SQL OPEN  GET_SHORT_NAME;,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:225,"EXEC SQL FETCH GET_SHORT_NAME INTO :shortname,:namequoted,:filetype;",embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:246,EXEC SQL CLOSE GET_SHORT_NAME;,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:255,EXEC SQL OPEN  GET_LONG_NAME;,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:256,"EXEC SQL FETCH GET_LONG_NAME INTO :longname,:namequoted,:filetype;",embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:277,EXEC SQL CLOSE GET_LONG_NAME;,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:290,EXEC SQL OPEN  GET_VIEW_DFN;,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:291,EXEC SQL FETCH GET_VIEW_DFN INTO :v_view_dfn;,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:305,EXEC SQL OPEN  GET_VIEW_DEP_FILES;,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:306,EXEC SQL FETCH GET_VIEW_DEP_FILES into,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:319,EXEC SQL FETCH GET_VIEW_DEP_FILES into,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:340,EXEC SQL CLOSE GET_VIEW_DEP_FILES;,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:342,EXEC SQL CLOSE GET_VIEW_DFN;,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:353,EXEC SQL OPEN  GET_CST_NAME;,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:354,EXEC SQL FETCH GET_CST_NAME INTO,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:379,EXEC SQL FETCH GET_CST_NAME INTO,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:398,EXEC SQL CLOSE GET_CST_NAME;,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:408,EXEC SQL OPEN  GET_CST_KEYS;,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:409,EXEC SQL FETCH GET_CST_KEYS INTO,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:420,EXEC SQL FETCH GET_CST_KEYS INTO,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:432,EXEC SQL CLOSE GET_CST_KEYS;,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:443,EXEC SQL OPEN  GET_IDX_NAME;,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:444,EXEC SQL FETCH GET_IDX_NAME INTO,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:478,EXEC SQL FETCH GET_IDX_NAME INTO,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:496,EXEC SQL CLOSE GET_IDX_NAME;,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:506,EXEC SQL OPEN  GET_IDX_KEYS;,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:507,EXEC SQL FETCH GET_IDX_KEYS INTO,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:528,EXEC SQL FETCH GET_IDX_KEYS INTO,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:541,EXEC SQL CLOSE GET_IDX_KEYS;,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:552,EXEC SQL OPEN  GET_VIEW_NAME;,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:553,EXEC SQL FETCH GET_VIEW_NAME INTO,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:574,EXEC SQL FETCH GET_VIEW_NAME INTO,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:591,EXEC SQL CLOSE GET_VIEW_NAME;,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:600,EXEC SQL declare GET_SHORT_NAME cursor for,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:605,EXEC SQL declare GET_LONG_NAME cursor for,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:610,EXEC SQL declare GET_VIEW_DFN cursor for,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:616,EXEC SQL declare GET_VIEW_DEP_FILES cursor for,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:621,EXEC SQL declare GET_CST_NAME cursor for,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:627,EXEC SQL declare GET_CST_KEYS cursor for,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:638,EXEC SQL declare GET_IDX_NAME cursor for,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:647,EXEC SQL declare GET_IDX_KEYS cursor for,embedded-sql,Partially Confirmed
+ANZ_FILE,QSQLCPPSRC/ANZ_FILE.SQLCPP:658,EXEC SQL declare GET_VIEW_NAME cursor for,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:31,exec sql include SQLCA;,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:33,exec sql begin declare section;,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:93,exec sql end declare section;,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:177,EXEC SQL WHENEVER SQLERROR GO TO sql_error;,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:208,EXEC SQL WHENEVER SQLERROR CONTINUE;,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:224,EXEC SQL OPEN  GET_SHORT_NAME;,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:225,"EXEC SQL FETCH GET_SHORT_NAME INTO :shortname,:namequoted,:filetype;",embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:246,EXEC SQL CLOSE GET_SHORT_NAME;,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:255,EXEC SQL OPEN  GET_LONG_NAME;,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:256,"EXEC SQL FETCH GET_LONG_NAME INTO :longname,:namequoted,:filetype;",embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:277,EXEC SQL CLOSE GET_LONG_NAME;,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:290,EXEC SQL OPEN  GET_VIEW_DFN;,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:291,EXEC SQL FETCH GET_VIEW_DFN INTO :v_view_dfn;,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:305,EXEC SQL OPEN  GET_VIEW_DEP_FILES;,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:306,EXEC SQL FETCH GET_VIEW_DEP_FILES into,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:319,EXEC SQL FETCH GET_VIEW_DEP_FILES into,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:340,EXEC SQL CLOSE GET_VIEW_DEP_FILES;,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:342,EXEC SQL CLOSE GET_VIEW_DFN;,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:353,EXEC SQL OPEN  GET_CST_NAME;,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:354,EXEC SQL FETCH GET_CST_NAME INTO,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:379,EXEC SQL FETCH GET_CST_NAME INTO,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:398,EXEC SQL CLOSE GET_CST_NAME;,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:408,EXEC SQL OPEN  GET_CST_KEYS;,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:409,EXEC SQL FETCH GET_CST_KEYS INTO,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:420,EXEC SQL FETCH GET_CST_KEYS INTO,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:432,EXEC SQL CLOSE GET_CST_KEYS;,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:443,EXEC SQL OPEN  GET_IDX_NAME;,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:444,EXEC SQL FETCH GET_IDX_NAME INTO,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:478,EXEC SQL FETCH GET_IDX_NAME INTO,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:496,EXEC SQL CLOSE GET_IDX_NAME;,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:506,EXEC SQL OPEN  GET_IDX_KEYS;,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:507,EXEC SQL FETCH GET_IDX_KEYS INTO,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:528,EXEC SQL FETCH GET_IDX_KEYS INTO,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:541,EXEC SQL CLOSE GET_IDX_KEYS;,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:552,EXEC SQL OPEN  GET_VIEW_NAME;,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:553,EXEC SQL FETCH GET_VIEW_NAME INTO,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:574,EXEC SQL FETCH GET_VIEW_NAME INTO,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:591,EXEC SQL CLOSE GET_VIEW_NAME;,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:600,EXEC SQL declare GET_SHORT_NAME cursor for,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:605,EXEC SQL declare GET_LONG_NAME cursor for,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:610,EXEC SQL declare GET_VIEW_DFN cursor for,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:616,EXEC SQL declare GET_VIEW_DEP_FILES cursor for,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:621,EXEC SQL declare GET_CST_NAME cursor for,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:627,EXEC SQL declare GET_CST_KEYS cursor for,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:638,EXEC SQL declare GET_IDX_NAME cursor for,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:647,EXEC SQL declare GET_IDX_KEYS cursor for,embedded-sql,Partially Confirmed
+ANZ_FILE2,QSQLCSRC/ANZ_FILE2.SQLC:658,EXEC SQL declare GET_VIEW_NAME cursor for,embedded-sql,Partially Confirmed
+cus300.test,QTESTSRC/cus300.test.sqlrpgle:12,exec sql,embedded-sql,Partially Confirmed
+cus300.test,QTESTSRC/cus300.test.sqlrpgle:16,exec sql,embedded-sql,Partially Confirmed
+cus300.test,QTESTSRC/cus300.test.sqlrpgle:19,exec sql,embedded-sql,Partially Confirmed
+cus300.test,QTESTSRC/cus300.test.sqlrpgle:41,exec sql,embedded-sql,Partially Confirmed
+vat300.test,QTESTSRC/vat300.test.sqlrpgle:12,exec sql,embedded-sql,Partially Confirmed
+vat300.test,QTESTSRC/vat300.test.sqlrpgle:16,exec sql,embedded-sql,Partially Confirmed
+vat300.test,QTESTSRC/vat300.test.sqlrpgle:19,exec sql,embedded-sql,Partially Confirmed
+vat300.test,QTESTSRC/vat300.test.sqlrpgle:32,exec sql,embedded-sql,Partially Confirmed

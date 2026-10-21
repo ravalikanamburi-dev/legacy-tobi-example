@@ -31,6 +31,7 @@ There is no job schedule, user profile, or authority list in the repository. The
 | Build order, libraries, and CCSID | [02-repository-and-build.md](02-repository-and-build.md) and [06-globalization.md](06-globalization.md) |
 | What breaks if a file or service program changes | [05-dependencies.md](05-dependencies.md) |
 | Facts the source does not prove | [07-open-questions.md](07-open-questions.md) |
+| Build files, copy members, and external tools | [09-supporting-artifacts.md](09-supporting-artifacts.md) |
 
 ## What the operator sees
 

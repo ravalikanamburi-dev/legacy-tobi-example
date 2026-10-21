@@ -1,0 +1,20 @@
+---
+description: Rules for documenting the legacy IBM i application from repository source. Use when writing or refreshing the docs package, program specifications, inventories, or coverage validation.
+alwaysApply: false
+---
+
+# Legacy application documentation
+
+- Read the source and repository configuration before writing. Do not assume file counts, languages, or object names from a previous checkout.
+- Cite a repository path and, where practical, a line number for every behavior, call, field, and dependency.
+- Use only these evidence labels: Confirmed, Inferred, Partially Confirmed, Unresolved.
+- A comment, menu label, or object text is a claim. Mark it Partially Confirmed unless the executable statements show the same behavior.
+- Do not invent business rules, field meanings, call graphs, or execution order.
+- Do not rename, delete, or modify application source while documenting.
+- Do not copy secrets, credentials, tokens, or connection strings into documentation.
+- Process related members in batches. After each batch, update `docs/tracking/documentation-execution-tracker.csv`.
+- Status values for the tracker are Not Started, In Progress, Completed, Partially Completed, Blocked, and Not Applicable.
+- Do not mark a file Completed until its specification or documented disposition exists and the coverage script has been considered.
+- Record blockers and unresolved dependencies in the tracker and in `docs/dependencies/missing-dependencies.csv`.
+- Keep local documentation links pointed at files that exist.
+- Run `python scripts/validate_documentation_coverage.py` before claiming coverage. Report remaining gaps. Do not call the package complete while the script reports failures or while source-level questions remain open.
