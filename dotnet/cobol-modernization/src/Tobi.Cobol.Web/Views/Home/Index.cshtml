@@ -1,0 +1,32 @@
+@{
+    ViewData["Title"] = "COBOL slice";
+}
+
+<h1>COBOL to .NET — this checkout only</h1>
+<p>
+    This site ports the COBOL members in <code>QCBLSRC</code>.
+    RPG, CL, order entry, and the rest of menu <code>SAMMNU</code> stay on IBM i.
+</p>
+<table>
+    <thead>
+        <tr><th>COBOL object</th><th>.NET equivalent</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>PRO201.CBLLE — Display Providers</td>
+            <td><a href="/Providers">/Providers</a> (panel 1 and 2)</td>
+        </tr>
+        <tr>
+            <td>SMPL.CBL COPY DATACPY</td>
+            <td>Message: @ViewBag.Copybook</td>
+        </tr>
+        <tr>
+            <td>VERIFY / VERIFYSQL / VERIFYSQLP</td>
+            <td>Arithmetic errors this run: @ViewBag.VerifyErrors (0 is success)</td>
+        </tr>
+    </tbody>
+</table>
+<p>
+    Option 5 still calls the <code>ART202</code> boundary. That program is RPG and is not rewritten here.
+    Provider rows are in-memory sample data; the repository has no PROVIDER data members.
+</p>

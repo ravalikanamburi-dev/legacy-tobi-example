@@ -2,6 +2,8 @@
 
 This document describes the application in the open checkout. The git remote for this workspace is `https://github.com/ravalikanamburi-dev/legacy-tobi-example.git`. The project file `iproj.json` still records a different repository string, `https://github.com/edmundreinhardt/tobi-example.git`. Both strings are stored as written. Neither string, by itself, proves which library the programs run in.
 
+Start a new machine with [knowledge-transfer/cursor-poc-user-guide.md](knowledge-transfer/cursor-poc-user-guide.md). It walks through installing Cursor, cloning this repository, opening the folder, and running the first-day checks. The technical handoff is [knowledge-transfer/cursor-poc-knowledge-transfer.md](knowledge-transfer/cursor-poc-knowledge-transfer.md). It records the documentation process, the COBOL-to-.NET slice, and the open items.
+
 Counts below come from a recursive walk of the working tree. The `.git` object store is one inventory row and is not expanded. Classification uses the file name and extension. A directory name is not treated as a language.
 
 Line-level specifications for each program are linked at the end of this file. A statement here is **Confirmed** when a source line or build entry shows it, **Partially Confirmed** when it quotes a menu label or a comment, and **Unresolved** when the checkout does not contain the fact.
@@ -26,7 +28,7 @@ No job description, job schedule, user profile, or authority list is in the chec
 
 ## What was counted
 
-The coverage script `scripts/validate_documentation_coverage.py` counted **550** files on disk. The `.git` object store is one extra inventory row, so the inventory has **551** rows. The script reported **0** structural failures. Tracker rows match the inventory: **540** Completed, **5** Partially Completed, **6** Not Applicable. The five partial rows are members that name a missing or unresolved dependency. Open dependency rows: **13**. They are listed under [What the checkout does not contain](#what-the-checkout-does-not-contain).
+The coverage script `scripts/validate_documentation_coverage.py` counted **585** files on disk. The `.git` object store is one extra inventory row, so the inventory has **586** rows. The script reported **0** structural failures. Tracker rows match the inventory: **575** Completed, **5** Partially Completed, **6** Not Applicable. The five partial rows are members that name a missing or unresolved dependency. Open dependency rows: **13**. They are listed under [What the checkout does not contain](#what-the-checkout-does-not-contain). The count rose after the COBOL-to-.NET files under `dotnet/cobol-modernization/` were added.
 
 Application source categories present:
 
@@ -226,11 +228,28 @@ These names are written in source. Their implementations are not members here. D
 | `RPGUNIT`, `QDEVTOOLS` | `iproj.json` library list | External libraries named for the build |
 | `QUSCRTUS`, `QUSPTRUS`, `QCMDEXC` | `QPROTOSRC/APICALL-Prototypes_for_Ibm_API.RPGLEINC` | IBM APIs. Prototypes only |
 
+## COBOL to .NET
+
+The documentation supports a **COBOL slice**, not a rewrite of the RPG application. That slice is implemented under [`dotnet/cobol-modernization/`](../dotnet/cobol-modernization/README.md).
+
+| COBOL | .NET |
+| --- | --- |
+| `QCBLSRC/PRO201.CBLLE` (menu option 5, Display Providers) | Web UI at `/Providers` |
+| `QCBLSRC/verify.pgm.cblle` and the SQL COBOL verify members | `VerifyCobol` tests |
+| `QCBLSRC/SMPL.CBL` | `SimpleCopybook` |
+
+`CALL "ART202"` remains a boundary: ART202 is RPG and is not rewritten. Provider rows are in-memory sample data; this repository has no PROVIDER data members. RPG, CL, and the rest of `SAMMNU` are unchanged.
+
+```bash
+dotnet test dotnet/cobol-modernization/tests/Tobi.Cobol.Tests/Tobi.Cobol.Tests.csproj
+dotnet run --project dotnet/cobol-modernization/src/Tobi.Cobol.Web/Tobi.Cobol.Web.csproj --urls http://127.0.0.1:5068
+```
+
 ## Documentation package
 
 These are the points required for this checkout. Each row names the file that holds that point and the result of the latest coverage run. A source fact the checkout does not contain stays Unresolved in the linked file. The same map is also in [audit/prompt-coverage.md](audit/prompt-coverage.md).
 
-Latest run of `python scripts/validate_documentation_coverage.py`: **551** inventory rows, **550** files on disk, **76** program specifications, **23** business rules, **131** dependency rows, **13** unresolved or missing dependency rows, **814** database field or statement rows, **0** validation failures. PDF generation is outstanding. The Markdown package is the delivered form.
+Latest run of `python scripts/validate_documentation_coverage.py`: **586** inventory rows, **585** files on disk, **76** program specifications, **23** business rules, **131** dependency rows, **13** unresolved or missing dependency rows, **814** database field or statement rows, **0** validation failures. PDF generation is outstanding. The Markdown package is the delivered form. The extra inventory rows are the COBOL-to-.NET files under `dotnet/cobol-modernization/`.
 
 ### Repository inventory
 
@@ -238,7 +257,7 @@ Every file in the working tree has an inventory row. Columns are relative path, 
 
 | Point | Page | Result |
 | --- | --- | --- |
-| Full inventory | [inventory/source-file-inventory.md](inventory/source-file-inventory.md) and [inventory/source-file-inventory.csv](inventory/source-file-inventory.csv) | Confirmed. 551 rows |
+| Full inventory | [inventory/source-file-inventory.md](inventory/source-file-inventory.md) and [inventory/source-file-inventory.csv](inventory/source-file-inventory.csv) | Confirmed. 586 rows |
 | Counting method and category totals | [inventory/file-type-summary.md](inventory/file-type-summary.md) | Confirmed |
 | Binary and unparsed files | Inventory rows whose requirement is `not-applicable` | Confirmed. 6 tracker rows are Not Applicable |
 
@@ -319,8 +338,8 @@ A name that is not a filename was searched against object names, member stems, a
 | Point | Page | Result |
 | --- | --- | --- |
 | Rule for later documentation sessions | [../.cursor/rules/legacy-documentation.mdc](../.cursor/rules/legacy-documentation.mdc) | Confirmed |
-| One tracker row per inventoried file | [tracking/documentation-execution-tracker.csv](tracking/documentation-execution-tracker.csv) | Confirmed. 551 rows |
-| Batch summary | [tracking/documentation-execution-summary.md](tracking/documentation-execution-summary.md) | Confirmed. 540 Completed, 5 Partially Completed, 6 Not Applicable |
+| One tracker row per inventoried file | [tracking/documentation-execution-tracker.csv](tracking/documentation-execution-tracker.csv) | Confirmed. 586 rows |
+| Batch summary | [tracking/documentation-execution-summary.md](tracking/documentation-execution-summary.md) | Confirmed. 575 Completed, 5 Partially Completed, 6 Not Applicable |
 
 ### Coverage validation
 

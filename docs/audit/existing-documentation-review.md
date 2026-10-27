@@ -6,4 +6,4 @@ Reviewed Markdown present in the checkout before the new package files were cons
 
 Root `README.md` describes the repository as a sample IBM i application and links to `docs/README.md`. The application narrative is `docs/README.md`.
 
-Link check rows: 808. Broken local links in this pass: 1.
+Link check rows: 879. Broken local links in this pass: 0.

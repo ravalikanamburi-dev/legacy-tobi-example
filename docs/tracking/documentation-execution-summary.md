@@ -6,11 +6,11 @@ Batches in this run: inventory, existing-doc audit, program specifications, busi
 
 | Status | Files |
 | --- | --- |
-| Completed | 540 |
+| Completed | 575 |
 | Not Applicable | 6 |
 | Partially Completed | 5 |
 
 Program specification pages: 76.
 Business rules: 23.
 Dependency rows: 131.
-Inventory rows including `.git`: 551.
+Inventory rows including `.git`: 586.

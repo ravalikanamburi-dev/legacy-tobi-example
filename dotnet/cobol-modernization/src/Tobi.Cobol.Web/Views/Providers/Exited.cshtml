@@ -1,0 +1,11 @@
+@model Pro201Program
+@{
+    ViewData["Title"] = "PRO201 ended";
+}
+
+<h1>PRO201 ended</h1>
+<p>F3 or F12 on panel 1 set PANEL to 0 and ran PGM-END (CLOSE / STOP RUN).</p>
+<form method="post" asp-action="Restart">
+    @Html.AntiForgeryToken()
+    <button type="submit">Start PRO201 again</button>
+</form>

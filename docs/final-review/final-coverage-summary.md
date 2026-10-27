@@ -4,14 +4,14 @@ Counts are from the documentation generator and from `docs/audit/coverage-valida
 
 | Item | Count |
 | --- | --- |
-| Inventory rows, including the `.git` directory row | 551 |
-| On-disk files excluding the `.git` object store | 550 |
+| Inventory rows, including the `.git` directory row | 586 |
+| On-disk files excluding the `.git` object store | 585 |
 | Program specification pages | 76 |
 | Business-rule rows | 23 |
 | Dependency rows | 131 |
 | Unresolved or missing dependency rows | 13 |
 | Database field or statement rows | 814 |
-| Tracker status Completed | 540 |
+| Tracker status Completed | 575 |
 | Tracker status Partially Completed | 5 |
 | Tracker status Not Applicable | 6 |
 

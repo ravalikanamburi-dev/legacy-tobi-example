@@ -1,0 +1,42 @@
+@model Pro201Program
+@{
+    ViewData["Title"] = "PRO201-2 Display Provider";
+    var row = Model.Detail;
+}
+
+<div class="screen-head">
+    <span>PRO201-2</span>
+    <h1>Display Provider</h1>
+    <time>@DateTime.Now.ToString("yyyy-MM-dd HH:mm")</time>
+</div>
+<p class="hint">Type choices, press Enter.</p>
+@if (row is null)
+{
+    <p>No subfile row was selected. COBOL MOVE CORRESPONDING SFL01-I TO FMT02-O had no source row.</p>
+}
+else
+{
+    <dl class="detail">
+        <div><dt>Provider Id</dt><dd>@row.PrId.ToString("00000")</dd></div>
+        <div><dt>Name</dt><dd>@row.ProvNm</dd></div>
+        <div><dt>Phone</dt><dd>@row.PrPhone</dd></div>
+        <div><dt>Vat N°</dt><dd>@row.PrVat</dd></div>
+        <div><dt>eMail</dt><dd>@row.PrMail</dd></div>
+        <div><dt>Address</dt><dd>@row.PrLine1<br />@row.PrLine2<br />@row.PrLine3</dd></div>
+        <div><dt>Postal Code &amp; City</dt><dd>@row.PrZip @row.PrCity</dd></div>
+        <div>
+            <dt>Country Code</dt>
+            <dd>
+                (blank in COBOL: PRCOUN is on FMT02 and not on SFL01, so MOVE CORRESPONDING does not copy it)
+            </dd>
+        </div>
+    </dl>
+}
+<form method="post" asp-action="Index">
+    @Html.AntiForgeryToken()
+    <div class="keys">
+        <button type="submit" name="command" value="Enter">Enter</button>
+        <button type="submit" name="command" value="F12">F12=Cancel</button>
+        <button type="submit" name="command" value="F3">F3=Exit</button>
+    </div>
+</form>

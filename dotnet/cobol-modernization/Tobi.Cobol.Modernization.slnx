@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Tobi.Cobol.Core/Tobi.Cobol.Core.csproj" />
+    <Project Path="src/Tobi.Cobol.Web/Tobi.Cobol.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Tobi.Cobol.Tests/Tobi.Cobol.Tests.csproj" />
+  </Folder>
+</Solution>

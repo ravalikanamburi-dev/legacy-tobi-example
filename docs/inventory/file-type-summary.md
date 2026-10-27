@@ -2,7 +2,7 @@
 
 Counting method: recursive walk of the working tree from the repository root. The `.git` object store is not expanded. One inventory row records that directory. Every other file, including hidden project files and IDE binaries, is one row. Size is `stat` size in bytes. Classification uses the file name and extension. It does not infer a language from a directory name.
 
-Files counted in the first walk: **549** plus the `.git` directory row.
+Files counted in the first walk: **585** plus the `.git` directory row.
 
 ## Counts by category
 
@@ -20,7 +20,7 @@ Files counted in the first walk: **549** plus the `.git` directory row.
 | cobol | 4 |
 | cobol-sql | 2 |
 | command | 2 |
-| config | 3 |
+| config | 6 |
 | copy-member | 13 |
 | cpp | 1 |
 | cpp-sql | 1 |
@@ -28,6 +28,7 @@ Files counted in the first walk: **549** plus the `.git` directory row.
 | data-area | 1 |
 | data-queue | 1 |
 | display-file | 18 |
+| dotnet-modernization | 28 |
 | ile-program-script | 2 |
 | ile-rpg | 29 |
 | ile-rpg-sql | 10 |
@@ -42,7 +43,7 @@ Files counted in the first walk: **549** plus the `.git` directory row.
 | physical-file | 12 |
 | printer-file | 1 |
 | project-metadata | 1 |
-| prose | 321 |
+| prose | 325 |
 | sql-file | 1 |
 | sql-function | 2 |
 | sql-procedure | 1 |
@@ -55,7 +56,7 @@ Files counted in the first walk: **549** plus the `.git` directory row.
 | test-metadata | 1 |
 | tooling | 4 |
 | unclassified | 11 |
-| vcs | 1 |
+| vcs | 2 |
 | workstation-customizing | 1 |
 
 ## Binary and generated

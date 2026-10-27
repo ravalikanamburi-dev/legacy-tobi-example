@@ -1,0 +1,64 @@
+@model Pro201Program
+@{
+    ViewData["Title"] = "PRO201-1 Display Providers";
+}
+
+<div class="screen-head">
+    <span>PRO201-1</span>
+    <h1>Display Providers</h1>
+    <time>@DateTime.Now.ToString("yyyy-MM-dd HH:mm")</time>
+</div>
+<p class="hint">Type options, press Enter. 2=Display &nbsp; 5=Items</p>
+@if (Model.InvalidOption)
+{
+    <p class="error" role="alert">Invalid Option</p>
+}
+@if (Model.LastArt202ProviderId is decimal prid)
+{
+    <p class="notice">
+        CALL ART202 USING @prid.ToString("00000"). ART202 is RPG
+        (<code>QRPGLESRC/ART202-Function_Article.PGM.RPGLE</code>) and is not part of this COBOL port.
+    </p>
+}
+<form method="post" asp-action="Index">
+    @Html.AntiForgeryToken()
+    <table class="grid">
+        <thead>
+            <tr>
+                <th>Opt</th>
+                <th>Id</th>
+                <th>Provider</th>
+                <th>City</th>
+                <th>Del</th>
+            </tr>
+        </thead>
+        <tbody>
+        @if (!Model.DisplaySubfile)
+        {
+            <tr><td colspan="5">No provider rows.</td></tr>
+        }
+        else
+        {
+            foreach (var row in Model.VisiblePage)
+            {
+                <tr>
+                    <td>
+                        <input name="options[@row.Rrn]" value="@(row.Opt01 == 0 ? "" : row.Opt01.ToString())"
+                               inputmode="numeric" maxlength="2" aria-label="Option for @row.PrId" />
+                    </td>
+                    <td>@row.PrId.ToString("00000")</td>
+                    <td>@row.ProvNm</td>
+                    <td>@row.PrCity</td>
+                    <td>@row.PrDel</td>
+                </tr>
+            }
+        }
+        </tbody>
+    </table>
+    <div class="keys">
+        <button type="submit" name="command" value="Enter">Enter</button>
+        <button type="submit" name="command" value="PageDown" @(Model.EndOfFile ? "disabled" : null)>Page down</button>
+        <button type="submit" name="command" value="F12">F12=Cancel</button>
+        <button type="submit" name="command" value="F3">F3=Exit</button>
+    </div>
+</form>

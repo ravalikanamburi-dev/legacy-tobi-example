@@ -56,12 +56,17 @@ const EXT = {
   ".mdc": ["cursor-rule", "disposition-only", ""],
   ".js": ["tooling", "disposition-only", ""],
   ".py": ["tooling", "disposition-only", ""],
+  ".cs": ["dotnet-modernization", "disposition-only", ""],
+  ".csproj": ["dotnet-modernization", "disposition-only", ""],
+  ".cshtml": ["dotnet-modernization", "disposition-only", ""],
+  ".css": ["dotnet-modernization", "disposition-only", ""],
+  ".slnx": ["dotnet-modernization", "disposition-only", ""],
 };
 
 const BINARY_EXT = new Set([
   ".sqlite", ".vsidx", ".wsuo", ".db", ".db-shm", ".db-wal", ".png", ".jpg", ".jpeg", ".gif", ".pdf", ".exe", ".dll",
 ]);
-const SKIP_DIRS = new Set([".git", "node_modules"]);
+const SKIP_DIRS = new Set([".git", "node_modules", "bin", "obj"]);
 const IBM = new Set([
   "QUSCRTUS", "QUSPTRUS", "QCMDEXC", "QCMD", "SIGNOFF", "STRQMQRY", "ADSPUSRSPC",
 ]);
@@ -107,17 +112,37 @@ function csvCell(value) {
   return text;
 }
 
+function sleepSync(ms) {
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+}
+
+function writeFileRetry(full, text) {
+  let lastError = null;
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    try {
+      fs.writeFileSync(full, text, "utf8");
+      return;
+    } catch (err) {
+      lastError = err;
+      if (err && err.code !== "UNKNOWN" && err.code !== "EBUSY" && err.code !== "EPERM") throw err;
+      sleepSync(150 * (attempt + 1));
+    }
+  }
+  throw lastError;
+}
+
 function writeCsv(rel, headers, rows) {
   const lines = [headers.join(",")];
   rows.forEach((row) => lines.push(headers.map((key) => csvCell(row[key])).join(",")));
-  fs.mkdirSync(path.dirname(path.join(ROOT, rel)), { recursive: true });
-  fs.writeFileSync(path.join(ROOT, rel), lines.join("\n") + "\n", "utf8");
+  const full = path.join(ROOT, rel);
+  fs.mkdirSync(path.dirname(full), { recursive: true });
+  writeFileRetry(full, lines.join("\n") + "\n");
 }
 
 function writeMd(rel, text) {
   const full = path.join(ROOT, rel);
   fs.mkdirSync(path.dirname(full), { recursive: true });
-  fs.writeFileSync(full, text.endsWith("\n") ? text : text + "\n", "utf8");
+  writeFileRetry(full, text.endsWith("\n") ? text : text + "\n");
 }
 
 function classify(rel) {

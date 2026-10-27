@@ -2,23 +2,23 @@
 
 Command: `python scripts/validate_documentation_coverage.py`
 
-Counting method for on-disk files: `os.walk` from the repository root, skipping `.git` and `node_modules`.
+Counting method for on-disk files: `os.walk` from the repository root, skipping `.git`, `node_modules`, `bin`, and `obj`.
 
 ## Counts
 
 | Item | Count |
 | --- | --- |
-| inventoried | 551 |
-| on_disk_excluding_git_objects | 550 |
+| inventoried | 586 |
+| on_disk_excluding_git_objects | 585 |
 | program_specs_required | 76 |
-| tracker_rows | 551 |
+| tracker_rows | 586 |
 | unresolved_dependency_rows | 13 |
 
 ## Tracker status
 
 | Status | Files |
 | --- | --- |
-| Completed | 540 |
+| Completed | 575 |
 | Not Applicable | 6 |
 | Partially Completed | 5 |
 

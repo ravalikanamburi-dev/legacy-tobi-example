@@ -13,7 +13,7 @@ import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SKIP_DIRS = set([".git", "node_modules"])
+SKIP_DIRS = set([".git", "node_modules", "bin", "obj"])
 REQUIRED = [
     "Identity",
     "Purpose",
@@ -239,7 +239,7 @@ def main():
     report.append("")
     report.append("Command: `python scripts/validate_documentation_coverage.py`")
     report.append("")
-    report.append("Counting method for on-disk files: `os.walk` from the repository root, skipping `.git` and `node_modules`.")
+    report.append("Counting method for on-disk files: `os.walk` from the repository root, skipping `.git`, `node_modules`, `bin`, and `obj`.")
     report.append("")
     report.append("## Counts")
     report.append("")
