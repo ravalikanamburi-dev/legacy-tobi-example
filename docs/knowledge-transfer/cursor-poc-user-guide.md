@@ -194,6 +194,7 @@ The generator rewrites the generated pages under `docs/programs/`, `docs/databas
 - `docs/final-review/unresolved-gaps-and-next-actions.md`
 - `docs/application/**`
 - `docs/knowledge-transfer/cursor-poc-knowledge-transfer.md`
+- `docs/knowledge-transfer/cursor-poc-prompt-playbook.md`
 - `docs/knowledge-transfer/cursor-poc-user-guide.md`
 
 After a passing coverage run, update the count sentences in `docs/README.md`, `docs/final-review/final-coverage-summary.md`, and `docs/tracking/documentation-execution-summary.md` so they match `docs/audit/coverage-validation-report.md`. The generator sets tracker validation to Pending. Replace the Pending sentence in the summary with the pass result. Leave the 13 open dependency rows in place.
@@ -229,7 +230,7 @@ Option 2, option 5, F12, an invalid option, F3, and restart are the behaviors al
 
 ## Step 10. Prompts you can paste
 
-Use these as the first message of a new Agent chat. Add the assignment's extra constraint in the same message. Plan mode (`Shift+Tab`) fits the refresh prompt and any change that touches more than one project.
+The requests already used are listed, at a high level, in [cursor-poc-prompt-playbook.md](cursor-poc-prompt-playbook.md). Use the prompts below as the first message of a new Agent chat. Add the assignment's extra constraint in the same message. Plan mode (`Shift+Tab`) fits the refresh prompt and any change that touches more than one project.
 
 **Orient yourself**
 

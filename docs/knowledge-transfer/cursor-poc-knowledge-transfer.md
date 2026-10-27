@@ -17,6 +17,7 @@ RPG, CL, DDS programs other than the provider display, SQL tables, and menu `SAM
 
 | If you need to | Start at |
 | --- | --- |
+| See the requests used so far | [cursor-poc-prompt-playbook.md](cursor-poc-prompt-playbook.md) |
 | Open Cursor and set up this repository | [cursor-poc-user-guide.md](cursor-poc-user-guide.md) |
 | Understand the sample application | [Application in one page](#application-in-one-page), then [docs/README.md](../README.md) |
 | Refresh or extend the documentation | [Documentation process](#documentation-process) |

@@ -2,6 +2,8 @@
 
 This document describes the application in the open checkout. The git remote for this workspace is `https://github.com/ravalikanamburi-dev/legacy-tobi-example.git`. The project file `iproj.json` still records a different repository string, `https://github.com/edmundreinhardt/tobi-example.git`. Both strings are stored as written. Neither string, by itself, proves which library the programs run in.
 
+The requests used so far are listed in [knowledge-transfer/cursor-poc-prompt-playbook.md](knowledge-transfer/cursor-poc-prompt-playbook.md). Setup is in [knowledge-transfer/cursor-poc-user-guide.md](knowledge-transfer/cursor-poc-user-guide.md). The technical handoff is [knowledge-transfer/cursor-poc-knowledge-transfer.md](knowledge-transfer/cursor-poc-knowledge-transfer.md).
+
 Counts below come from a recursive walk of the working tree. The `.git` object store is one inventory row and is not expanded. Classification uses the file name and extension. A directory name is not treated as a language.
 
 Line-level specifications for each program are linked at the end of this file. A statement here is **Confirmed** when a source line or build entry shows it, **Partially Confirmed** when it quotes a menu label or a comment, and **Unresolved** when the checkout does not contain the fact.
