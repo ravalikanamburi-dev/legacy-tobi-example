@@ -255,22 +255,34 @@ No SME has signed these findings. Rows that need a subject-matter expert stay op
 
 The inventory is [inventory/source-file-inventory.csv](inventory/source-file-inventory.csv). The coverage script reconciled it with the working tree: **588** inventory rows, **587** files on disk, **0** structural failures. Category totals are in [What was counted](#what-was-counted). Copybooks, screens, database files, service programs, binding directories, build scripts, tests, and CCSID files are included in that inventory. The concrete runtime library behind `&lib1` is not. Job descriptions, schedules, and user profiles are not in the checkout.
 
-### Unresolved dependencies
+### Questions closed from this checkout
 
-A name is Confirmed Missing when no member or `Rules.mk` target in this checkout matches it. That status does not prove the object is absent from an IBM i system. It stays on the register until source appears here or an SME confirms the object. Display files and printer files with a similar name are not the missing program.
+These questions can be answered from members that are already here. They do not need an SME.
 
-| Name | Referenced from | Business scenario | Status | Next action |
+**The `DDS-` names in `PRO201` point at files in this checkout.** `QCBLSRC/PRO201.CBLLE` copies `DDS-FPROV` in `PROVIDE1`, and copies `DDS-CTL01-O`, `DDS-CTL01-I`, `DDS-SFL01-O`, `DDS-SFL01-I`, `DDS-FMT02-O`, and `DDS-FMT02-I` in `PRO201D`. `QDDSSRC/PROVIDE1.LF` is a logical file over `PROVIDER` with record `FPROV`. `QDDSSRC/PRO201D.DSPF` contains formats `SFL01`, `CTL01`, and `FMT02`. The generated copybook text is not stored as its own member. The files and formats those copy statements name are in the tree.
+
+**`ORD500C` and `ORD500O` are not program `ORD500`.** `QCLSRC/ORD500C.PGM.CLLE` accepts an order and a path, builds the stream-file name `Custord` plus that order plus `.pdf`, and runs `CVTSPLPDF` on printer file `ORD500O`. That explains the CL program and the printer file. It does not explain the external program call `ORD500`.
+
+**`QTRGSRC` and `QTESTSRC` are outside the default build.** The root `Rules.mk` subdirectory list does not include them. `QTRGSRC/Rules.mk` exists, so `ORD700A`, `ORD700D`, and `ORD700U` are not compiled by a default `makei build`. `QTESTSRC` has two RPGUnit tests and no `Rules.mk`, so those tests are not compiled by that build either. `iproj.json` names library `RPGUNIT`. That product is not in this checkout.
+
+### Questions that stay open
+
+A name is Confirmed Missing when no member or `Rules.mk` target in this checkout matches it. That status does not prove the object is absent from an IBM i system. These rows stay open until the missing source is recovered or an SME confirms the object.
+
+| Name | Referenced from | Business scenario | Status | Why it stays open |
 | --- | --- | --- | --- | --- |
-| `ORD500` | `ORD100` line 27, and the same external prototype in `ORD101`, `ORD200`, and `ORD201` | Create and work with customer orders | Confirmed Missing in this checkout | Recover the program. `ORD500O` is a printer file. `ORD500C` is a different CL program. |
-| `CUS200` | Menu option 2 | Work with Customers | Confirmed Missing in this checkout | Recover the program. `CUS200D` is a display file, not that program. |
-| `pro203` | Menu option 10 | Article to purchase | Confirmed Missing in this checkout | Recover the program. |
-| `CUSQRY`, `CUSQRYFMT` | Menu option 11 | Customer with Open Order | The `STRQMQRY` command is an IBM external. The query and form are absent here | Recover the Query Manager definitions before describing the report. |
-| `ARTQRY` | Menu option 12 | Article by Last Order Date | The command is an IBM external. The query is absent here | Recover the query definition. |
+| `ORD500` | `ORD100` line 27, and the same external prototype in `ORD101`, `ORD200`, and `ORD201` | Create and work with customer orders | Confirmed Missing in this checkout | No program member. `ORD500C` and `ORD500O` are a different CL program and a printer file. |
+| `CUS200` | Menu option 2 | Work with Customers | Confirmed Missing in this checkout | Only display file `CUS200D` is here. That file is not the program. |
+| `pro203` | Menu option 10 | Article to purchase | Confirmed Missing in this checkout | No member with that name. |
+| `CUSQRY`, `CUSQRYFMT` | Menu option 11 | Customer with Open Order | The `STRQMQRY` command is an IBM external. The query and form are absent here | The Query Manager definitions are not in the tree. |
+| `ARTQRY` | Menu option 12 | Article by Last Order Date | The command is an IBM external. The query is absent here | The query definition is not in the tree. |
 | `SAMLOG` | Menu option 84 | Display Application log | The `ADSPUSRSPC` command is an IBM external. The user space is absent here | No user-space source is in the checkout. |
-| Seven `DDS-` copybooks | `QCBLSRC/PRO201.CBLLE` | Display Providers | Unresolved | Confirm whether the compiler generates them from `PRO201D` and `PROVIDER`. They are not stored as members. |
-| `&lib1` | `iproj.json` | Build | Unresolved | The production library name is not in the repository. |
+| `&lib1` | `iproj.json` | Build | Unresolved | The repository has the token only. Editor actions pass `lib1=&CURLIB`. The production library name is not stored. |
+| `SAMPLE.BNDDIR` versus `QBNDSRC/Rules.mk` | Binding directory and its build rule | Service programs used at bind time | Partially Confirmed | Both lists are in source and they differ. Which list is installed is not in the checkout. |
+| `makei build` result | `iproj.json` | Build | Unresolved | The command is stored. This pass did not run it. It needs an IBM i system. |
+| SME sign-off | This package | All of the open rows | Not obtained | Cursor cannot sign for a subject-matter expert. |
 
-The same rows are in [dependencies/missing-dependencies.csv](dependencies/missing-dependencies.csv) and [final-review/unresolved-gaps-and-next-actions.md](final-review/unresolved-gaps-and-next-actions.md).
+The missing-name rows are also in [dependencies/missing-dependencies.csv](dependencies/missing-dependencies.csv) and [final-review/unresolved-gaps-and-next-actions.md](final-review/unresolved-gaps-and-next-actions.md).
 
 ### Build and runtime configuration
 
@@ -308,7 +320,7 @@ Two scenarios have enough source to describe. Both still have open names.
 
 **Create a customer order.** Menu option 6 calls `ORD100C2`, which prepares `QTEMP/DETORD` and calls `ORD100`. `ORD100` declares `order`, `detord`, `Tmpdetord`, and display file `ord100d`. It prototypes `ORD500`. What `ORD500` does is Unresolved. Detail is in [Create a customer order](#create-a-customer-order) and [flows/program-processing-flows.md](flows/program-processing-flows.md).
 
-**Display providers.** Menu option 5 calls `pro201`. The checkout builds COBOL module `PRO201` with display file `PRO201D`. There is no `PRO201` program target. The module copies `DDS-` books that are not stored as members. Option 5 in that module names `CALL "ART202"`. ART202 is RPG and is not part of the COBOL port. Detail is in [programs/cobol/PRO201.md](programs/cobol/PRO201.md).
+**Display providers.** Menu option 5 calls `pro201`. The checkout builds COBOL module `PRO201` with display file `PRO201D`. There is no `PRO201` program target. The `COPY DDS-` statements name `PROVIDE1` and `PRO201D`, and those files are in `QDDSSRC`. The generated copybook text is not stored as its own member. Option 5 in that module names `CALL "ART202"`. ART202 is RPG and is not part of the COBOL port. Detail is in [programs/cobol/PRO201.md](programs/cobol/PRO201.md).
 
 ### Cursor skills
 
@@ -356,7 +368,9 @@ No workbook was written. The checkout has no IBM i screen images, and this pass 
 
 ### Findings and limitations
 
-The menu, the order-entry path through `ORD100`, the provider module `PRO201`, the file layouts, and the default build list are documented from source. The package does not claim that every menu option runs, that `ORD500` or `CUS200` or `pro203` have been read, that the binding-directory list on the system matches one of the two lists in source, or that a `makei build` has succeeded. PDF output and the Excel workbook are not part of this delivery. Application source was not modified to produce these pages.
+Closed from this checkout: the menu and file layouts, the order-entry path through `ORD100`, the provider module `PRO201` and the files named by its `COPY DDS-` statements, the separate roles of `ORD500C` and `ORD500O`, and the reason `QTRGSRC` and `QTESTSRC` are outside a default build.
+
+Still open, and listed above: program `ORD500`, program `CUS200`, program `pro203`, the Query Manager objects, user space `SAMLOG`, the production library name, which binding-directory list is installed, and the result of `makei build`. No SME has signed this package. PDF output and an Excel workbook are not part of this delivery. Application source was not modified to produce these pages.
 
 ## Documentation package
 
