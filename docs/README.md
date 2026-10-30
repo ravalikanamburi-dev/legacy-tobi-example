@@ -2,7 +2,7 @@
 
 This document describes the application in the open checkout. The git remote for this workspace is `https://github.com/ravalikanamburi-dev/legacy-tobi-example.git`. The project file `iproj.json` still records a different repository string, `https://github.com/edmundreinhardt/tobi-example.git`. Both strings are stored as written. Neither string, by itself, proves which library the programs run in.
 
-The requests used so far are listed in [knowledge-transfer/cursor-poc-prompt-playbook.md](knowledge-transfer/cursor-poc-prompt-playbook.md). Setup is in [knowledge-transfer/cursor-poc-user-guide.md](knowledge-transfer/cursor-poc-user-guide.md). The technical handoff is [knowledge-transfer/cursor-poc-knowledge-transfer.md](knowledge-transfer/cursor-poc-knowledge-transfer.md).
+Start a new machine with [knowledge-transfer/cursor-poc-user-guide.md](knowledge-transfer/cursor-poc-user-guide.md). It walks through installing Cursor, cloning this repository, opening the folder, and running the first-day checks. The technical handoff is [knowledge-transfer/cursor-poc-knowledge-transfer.md](knowledge-transfer/cursor-poc-knowledge-transfer.md). It records the documentation process, the COBOL-to-.NET slice, and the open items. The requests used so far are listed in [knowledge-transfer/cursor-poc-prompt-playbook.md](knowledge-transfer/cursor-poc-prompt-playbook.md). The reusable Agent prompt is [legacy-application-documentation-master-prompt.md](legacy-application-documentation-master-prompt.md). The findings from that prompt, written against this checkout, are in [Documentation and validation](#documentation-and-validation).
 
 Counts below come from a recursive walk of the working tree. The `.git` object store is one inventory row and is not expanded. Classification uses the file name and extension. A directory name is not treated as a language.
 
@@ -28,7 +28,7 @@ No job description, job schedule, user profile, or authority list is in the chec
 
 ## What was counted
 
-The coverage script `scripts/validate_documentation_coverage.py` counted **550** files on disk. The `.git` object store is one extra inventory row, so the inventory has **551** rows. The script reported **0** structural failures. Tracker rows match the inventory: **540** Completed, **5** Partially Completed, **6** Not Applicable. The five partial rows are members that name a missing or unresolved dependency. Open dependency rows: **13**. They are listed under [What the checkout does not contain](#what-the-checkout-does-not-contain).
+The coverage script `scripts/validate_documentation_coverage.py` counted **587** files on disk. The `.git` object store is one extra inventory row, so the inventory has **588** rows. The script reported **0** structural failures. Tracker rows match the inventory: **577** Completed, **5** Partially Completed, **6** Not Applicable. The five partial rows are members that name a missing or unresolved dependency. Open dependency rows: **13**. They are listed under [What the checkout does not contain](#what-the-checkout-does-not-contain). The count rose after the COBOL-to-.NET files under `dotnet/cobol-modernization/` were added.
 
 Application source categories present:
 
@@ -228,11 +228,141 @@ These names are written in source. Their implementations are not members here. D
 | `RPGUNIT`, `QDEVTOOLS` | `iproj.json` library list | External libraries named for the build |
 | `QUSCRTUS`, `QUSPTRUS`, `QCMDEXC` | `QPROTOSRC/APICALL-Prototypes_for_Ibm_API.RPGLEINC` | IBM APIs. Prototypes only |
 
+## COBOL to .NET
+
+The documentation supports a **COBOL slice**, not a rewrite of the RPG application. That slice is implemented under [`dotnet/cobol-modernization/`](../dotnet/cobol-modernization/README.md).
+
+| COBOL | .NET |
+| --- | --- |
+| `QCBLSRC/PRO201.CBLLE` (menu option 5, Display Providers) | Web UI at `/Providers` |
+| `QCBLSRC/verify.pgm.cblle` and the SQL COBOL verify members | `VerifyCobol` tests |
+| `QCBLSRC/SMPL.CBL` | `SimpleCopybook` |
+
+`CALL "ART202"` remains a boundary: ART202 is RPG and is not rewritten. Provider rows are in-memory sample data; this repository has no PROVIDER data members. RPG, CL, and the rest of `SAMMNU` are unchanged.
+
+```bash
+dotnet test dotnet/cobol-modernization/tests/Tobi.Cobol.Tests/Tobi.Cobol.Tests.csproj
+dotnet run --project dotnet/cobol-modernization/src/Tobi.Cobol.Web/Tobi.Cobol.Web.csproj --urls http://127.0.0.1:5068
+```
+
+## Documentation and validation
+
+This section is the evidence-based result of the documentation and validation prompt. It uses the pages already in this package. It does not replace them. A generated page is not proof that a rule or a dependency is correct. A finding below is traced to a source line, a build entry, or an explicit Unresolved mark.
+
+No SME has signed these findings. Rows that need a subject-matter expert stay open.
+
+### Source discovery
+
+The inventory is [inventory/source-file-inventory.csv](inventory/source-file-inventory.csv). The coverage script reconciled it with the working tree: **588** inventory rows, **587** files on disk, **0** structural failures. Category totals are in [What was counted](#what-was-counted). Copybooks, screens, database files, service programs, binding directories, build scripts, tests, and CCSID files are included in that inventory. The concrete runtime library behind `&lib1` is not. Job descriptions, schedules, and user profiles are not in the checkout.
+
+### Unresolved dependencies
+
+A name is Confirmed Missing when no member or `Rules.mk` target in this checkout matches it. That status does not prove the object is absent from an IBM i system. It stays on the register until source appears here or an SME confirms the object. Display files and printer files with a similar name are not the missing program.
+
+| Name | Referenced from | Business scenario | Status | Next action |
+| --- | --- | --- | --- | --- |
+| `ORD500` | `ORD100` line 27, and the same external prototype in `ORD101`, `ORD200`, and `ORD201` | Create and work with customer orders | Confirmed Missing in this checkout | Recover the program. `ORD500O` is a printer file. `ORD500C` is a different CL program. |
+| `CUS200` | Menu option 2 | Work with Customers | Confirmed Missing in this checkout | Recover the program. `CUS200D` is a display file, not that program. |
+| `pro203` | Menu option 10 | Article to purchase | Confirmed Missing in this checkout | Recover the program. |
+| `CUSQRY`, `CUSQRYFMT` | Menu option 11 | Customer with Open Order | The `STRQMQRY` command is an IBM external. The query and form are absent here | Recover the Query Manager definitions before describing the report. |
+| `ARTQRY` | Menu option 12 | Article by Last Order Date | The command is an IBM external. The query is absent here | Recover the query definition. |
+| `SAMLOG` | Menu option 84 | Display Application log | The `ADSPUSRSPC` command is an IBM external. The user space is absent here | No user-space source is in the checkout. |
+| Seven `DDS-` copybooks | `QCBLSRC/PRO201.CBLLE` | Display Providers | Unresolved | Confirm whether the compiler generates them from `PRO201D` and `PROVIDER`. They are not stored as members. |
+| `&lib1` | `iproj.json` | Build | Unresolved | The production library name is not in the repository. |
+
+The same rows are in [dependencies/missing-dependencies.csv](dependencies/missing-dependencies.csv) and [final-review/unresolved-gaps-and-next-actions.md](final-review/unresolved-gaps-and-next-actions.md).
+
+### Build and runtime configuration
+
+Confirmed from `iproj.json` and the root `Rules.mk`:
+
+- The stored build command is `/QOpenSys/pkgs/bin/makei build`.
+- The root subdirectory list includes `QBNDSRC` and does not include `QTRGSRC` or `QTESTSRC`.
+- `QTRGSRC/Rules.mk` exists, so `ORD700A`, `ORD700D`, and `ORD700U` are outside a default build.
+- `QTESTSRC` has two RPGUnit tests and no `Rules.mk`. A default build does not compile them. `iproj.json` names library `RPGUNIT`. That product is not in this checkout.
+- CCSID comes from the nearest `.ibmi.json`. Root is 37. RPG, SQL, and prototype directories that carry their own file use 297. CL, COBOL, commands, and `functionsVAT` use 500. `globalization/CHS` uses 935, `globalization/DEU` uses 273, and `globalization/HEB` uses 424. The checkout does not state which language a CCSID number represents.
+
+`QBNDSRC/Rules.mk` lists service programs `XML`, `TXT`, `FARTICLE`, `FCUSTOMER`, `FFAMILLY`, `FPARAMETER`, `FPROVIDER`, and `LOG`. `QBNDSRC/SAMPLE.BNDDIR` also names `ORDER`, `XSS`, and `FVAT`. Both lists are kept. Which list the system binding directory uses is Partially Confirmed and needs a build engineer.
+
+This documentation pass did not run `makei build`. The build result on IBM i is Unresolved. The .NET tests under `dotnet/cobol-modernization/` check the COBOL slice only. They are not an IBM i build result.
+
+### Dependency matrices
+
+Statuses are Resolved, External Dependency, Dynamic Reference, Unresolved, and Confirmed Missing. The search behind those statuses is in [dependencies/dependency-validation-report.md](dependencies/dependency-validation-report.md).
+
+| Matrix | Where | What a row is |
+| --- | --- | --- |
+| Caller to callee | [dependencies/dependency-inventory.csv](dependencies/dependency-inventory.csv) and [dependencies/dependency-diagrams.md](dependencies/dependency-diagrams.md) | A `CALL PGM` or `extpgm` name, with status. 131 dependency rows in the inventory |
+| Program to copybook | The same inventory, kind copy or prototype | A copy or prototype name found in the member |
+| Program to file | [database/program-data-access-matrix.csv](database/program-data-access-matrix.csv) | A file declaration or embedded SQL statement |
+| Program to screen | Program specifications under [programs/README.md](programs/README.md), Files and interfaces | A workstation file named by the member |
+| Program to service program or build target | [architecture/build-and-execution-model.md](architecture/build-and-execution-model.md) and `QBNDSRC` | A `bnddir` or `Rules.mk` target |
+
+An arrow in a diagram means the source names that call. It does not prove the called program finishes.
+
+### Business rules and scenarios
+
+Rules are copied from menu actions and SQL statements. They are not renamed into a new business vocabulary. The catalog has 23 rows: [business-rules/business-rules-catalog.md](business-rules/business-rules-catalog.md). Menu text is Partially Confirmed. SQL text is Confirmed as the statement in the member.
+
+Two scenarios have enough source to describe. Both still have open names.
+
+**Create a customer order.** Menu option 6 calls `ORD100C2`, which prepares `QTEMP/DETORD` and calls `ORD100`. `ORD100` declares `order`, `detord`, `Tmpdetord`, and display file `ord100d`. It prototypes `ORD500`. What `ORD500` does is Unresolved. Detail is in [Create a customer order](#create-a-customer-order) and [flows/program-processing-flows.md](flows/program-processing-flows.md).
+
+**Display providers.** Menu option 5 calls `pro201`. The checkout builds COBOL module `PRO201` with display file `PRO201D`. There is no `PRO201` program target. The module copies `DDS-` books that are not stored as members. Option 5 in that module names `CALL "ART202"`. ART202 is RPG and is not part of the COBOL port. Detail is in [programs/cobol/PRO201.md](programs/cobol/PRO201.md).
+
+### Cursor skills
+
+The prompt names six responsibilities. This repository already has skills for them. A second set of skills with those six names was not added.
+
+| Responsibility | Skill or tool already here |
+| --- | --- |
+| Discovery | `ibmi-source-inventory` and `.cursor/rules/ibmi-doc-discovery.mdc` |
+| Dependency analysis | `ibmi-build-dependency-analysis` |
+| Business-rule extraction | `ibmi-program-analysis`, `ibmi-data-definition-analysis`, and `ibmi-interface-analysis` |
+| Documentation generation | `scripts/generate_legacy_docs.js`. `ibmi-app-documentation` is only for `docs/application/` when that package is requested |
+| Validation | `scripts/validate_documentation_coverage.py` and `.cursor/rules/ibmi-doc-coverage.mdc` |
+| Reporting | `docs/audit/`, `docs/final-review/`, and `docs/tracking/` |
+
+`tobi-makei`, `tobi-rpgle`, and `tobi-rpgunit` are coding conventions. They are not evidence. This pass did not change IBM i source or those coding skills.
+
+### Excel workbook
+
+No workbook was written. The checkout has no IBM i screen images, and this pass did not capture any. The .NET pages are not those screens. A workbook with invented screenshots would violate the validation rule, so the workbook is outstanding. The two scenarios above are the ones a later workbook can use, with the open names left open.
+
+### Validation that ran
+
+| Check | Result |
+| --- | --- |
+| `python scripts/validate_documentation_coverage.py` | 0 structural failures. 13 unresolved or missing dependency rows remain |
+| Inventory matches the working tree | 588 rows, including `.git`. 587 files on disk |
+| `makei build` | Not run. It needs an IBM i environment |
+| Workbook compared to source | Skipped. No workbook exists |
+| SME sign-off | Not obtained |
+
+### Reports
+
+| Report the prompt asks for | Page |
+| --- | --- |
+| Source inventory | [inventory/source-file-inventory.csv](inventory/source-file-inventory.csv) |
+| Dependency matrices | [dependencies/dependency-inventory.csv](dependencies/dependency-inventory.csv) and [database/program-data-access-matrix.csv](database/program-data-access-matrix.csv) |
+| Program and scenario documentation | [programs/README.md](programs/README.md), [flows/application-functional-flows.md](flows/application-functional-flows.md), [flows/program-processing-flows.md](flows/program-processing-flows.md) |
+| Build and runtime analysis | [How a build runs](#how-a-build-runs) and [architecture/build-and-execution-model.md](architecture/build-and-execution-model.md) |
+| Unresolved register | [dependencies/missing-dependencies.csv](dependencies/missing-dependencies.csv) |
+| Coverage | [audit/coverage-validation-report.md](audit/coverage-validation-report.md) |
+| Build and test readiness | [Build and runtime configuration](#build-and-runtime-configuration) |
+| SME questions | [final-review/unresolved-gaps-and-next-actions.md](final-review/unresolved-gaps-and-next-actions.md) |
+| Execution summary | [tracking/documentation-execution-summary.md](tracking/documentation-execution-summary.md) |
+| Paste-ready prompt | [legacy-application-documentation-master-prompt.md](legacy-application-documentation-master-prompt.md) |
+
+### Findings and limitations
+
+The menu, the order-entry path through `ORD100`, the provider module `PRO201`, the file layouts, and the default build list are documented from source. The package does not claim that every menu option runs, that `ORD500` or `CUS200` or `pro203` have been read, that the binding-directory list on the system matches one of the two lists in source, or that a `makei build` has succeeded. PDF output and the Excel workbook are not part of this delivery. Application source was not modified to produce these pages.
+
 ## Documentation package
 
 These are the points required for this checkout. Each row names the file that holds that point and the result of the latest coverage run. A source fact the checkout does not contain stays Unresolved in the linked file. The same map is also in [audit/prompt-coverage.md](audit/prompt-coverage.md).
 
-Latest run of `python scripts/validate_documentation_coverage.py`: **551** inventory rows, **550** files on disk, **76** program specifications, **23** business rules, **131** dependency rows, **13** unresolved or missing dependency rows, **814** database field or statement rows, **0** validation failures. PDF generation is outstanding. The Markdown package is the delivered form.
+Latest run of `python scripts/validate_documentation_coverage.py`: **588** inventory rows, **587** files on disk, **76** program specifications, **23** business rules, **131** dependency rows, **13** unresolved or missing dependency rows, **814** database field or statement rows, **0** validation failures. PDF generation is outstanding. The Markdown package is the delivered form. The extra inventory rows are the COBOL-to-.NET files under `dotnet/cobol-modernization/`.
 
 ### Repository inventory
 
@@ -240,7 +370,7 @@ Every file in the working tree has an inventory row. Columns are relative path, 
 
 | Point | Page | Result |
 | --- | --- | --- |
-| Full inventory | [inventory/source-file-inventory.md](inventory/source-file-inventory.md) and [inventory/source-file-inventory.csv](inventory/source-file-inventory.csv) | Confirmed. 551 rows |
+| Full inventory | [inventory/source-file-inventory.md](inventory/source-file-inventory.md) and [inventory/source-file-inventory.csv](inventory/source-file-inventory.csv) | Confirmed. 588 rows |
 | Counting method and category totals | [inventory/file-type-summary.md](inventory/file-type-summary.md) | Confirmed |
 | Binary and unparsed files | Inventory rows whose requirement is `not-applicable` | Confirmed. 6 tracker rows are Not Applicable |
 
@@ -321,8 +451,8 @@ A name that is not a filename was searched against object names, member stems, a
 | Point | Page | Result |
 | --- | --- | --- |
 | Rule for later documentation sessions | [../.cursor/rules/legacy-documentation.mdc](../.cursor/rules/legacy-documentation.mdc) | Confirmed |
-| One tracker row per inventoried file | [tracking/documentation-execution-tracker.csv](tracking/documentation-execution-tracker.csv) | Confirmed. 551 rows |
-| Batch summary | [tracking/documentation-execution-summary.md](tracking/documentation-execution-summary.md) | Confirmed. 540 Completed, 5 Partially Completed, 6 Not Applicable |
+| One tracker row per inventoried file | [tracking/documentation-execution-tracker.csv](tracking/documentation-execution-tracker.csv) | Confirmed. 588 rows |
+| Batch summary | [tracking/documentation-execution-summary.md](tracking/documentation-execution-summary.md) | Confirmed. 577 Completed, 5 Partially Completed, 6 Not Applicable |
 
 ### Coverage validation
 
