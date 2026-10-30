@@ -28,7 +28,7 @@ No job description, job schedule, user profile, or authority list is in the chec
 
 ## What was counted
 
-The coverage script `scripts/validate_documentation_coverage.py` counted **587** files on disk. The `.git` object store is one extra inventory row, so the inventory has **588** rows. The script reported **0** structural failures. Tracker rows match the inventory: **577** Completed, **5** Partially Completed, **6** Not Applicable. The five partial rows are members that name a missing or unresolved dependency. Open dependency rows: **13**. They are listed under [What the checkout does not contain](#what-the-checkout-does-not-contain). The count rose after the COBOL-to-.NET files under `dotnet/cobol-modernization/` were added.
+The coverage script `scripts/validate_documentation_coverage.py` counted **610** files on disk. The `.git` object store is one extra inventory row, so the inventory has **611** rows. The script reported **0** structural failures. Tracker rows match the inventory: **600** Completed, **5** Partially Completed, **6** Not Applicable. The five partial rows are members that name a missing or unresolved dependency. Open dependency rows: **13**. They are listed under [What the checkout does not contain](#what-the-checkout-does-not-contain). This count includes the regenerated pages under `docs/application/` and the COBOL-to-.NET files under `dotnet/cobol-modernization/`.
 
 Application source categories present:
 
@@ -173,9 +173,9 @@ SQL objects in `QSQLSRC` include table `CUSTTBL`, views, sequence `CUSSEQ`, vari
 
 ILE RPG programs that need shared procedures specify `bnddir('SAMPLE')`. The binding directory is `QBNDSRC/SAMPLE.BNDDIR`.
 
-`QBNDSRC/Rules.mk` builds that directory from service programs `XML`, `TXT`, `FARTICLE`, `FCUSTOMER`, `FFAMILLY`, `FPARAMETER`, `FPROVIDER`, and `LOG`.
+`QBNDSRC/SAMPLE.BNDDIR` is the create script. It runs `CRTBNDDIR` and `ADDBNDDIRE` for service programs `XML`, `ORDER`, `TXT`, `XSS`, `FARTICLE`, `FCUSTOMER`, `FFAMILLY`, `FPARAMETER`, `FPROVIDER`, `FVAT`, and `LOG`. That member is the binding list.
 
-The binding-directory source also names `ORDER`, `XSS`, and `FVAT`. `FVAT` is built from `functionsVAT/fvat.bnd` and module `VAT300`. A service program named `ORDER` is not in the checkout. The file `ORDER` is. `XSS` exists as the prototype `QPROTOSRC/XSS.RPGLEINC` and not as a service-program target. Both lists are recorded. The checkout does not say which list is the one created on the system. Status: Partially Confirmed.
+`QBNDSRC/Rules.mk` is the make prerequisite line for the same object: `XML`, `TXT`, `FARTICLE`, `FCUSTOMER`, `FFAMILLY`, `FPARAMETER`, `FPROVIDER`, and `LOG`. It does not replace the `ADDBNDDIRE` list. `FVAT` is built from `functionsVAT/fvat.bnd` and module `VAT300`, and that service program is not a prerequisite of `SAMPLE.BNDDIR`. A service program named `ORDER` is not in the checkout. The file `ORDER` is. `XSS` exists as the prototype `QPROTOSRC/XSS.RPGLEINC` and not as a service-program target.
 
 Copy members and prototypes are in `QPROTOSRC` and `includes`. `iproj.json` sets `includePath` to those two directories. `QPROTOSRC/APICALL-Prototypes_for_Ibm_API.RPGLEINC` prototypes IBM APIs `QUSCRTUS`, `QUSPTRUS`, and `QCMDEXC`. Their implementations are IBM-supplied programs, not members of this checkout.
 
@@ -253,7 +253,7 @@ No SME has signed these findings. Rows that need a subject-matter expert stay op
 
 ### Source discovery
 
-The inventory is [inventory/source-file-inventory.csv](inventory/source-file-inventory.csv). The coverage script reconciled it with the working tree: **588** inventory rows, **587** files on disk, **0** structural failures. Category totals are in [What was counted](#what-was-counted). Copybooks, screens, database files, service programs, binding directories, build scripts, tests, and CCSID files are included in that inventory. The concrete runtime library behind `&lib1` is not. Job descriptions, schedules, and user profiles are not in the checkout.
+The inventory is [inventory/source-file-inventory.csv](inventory/source-file-inventory.csv). The coverage script reconciled it with the working tree: **611** inventory rows, **610** files on disk, **0** structural failures. Category totals are in [What was counted](#what-was-counted). Copybooks, screens, database files, service programs, binding directories, build scripts, tests, and CCSID files are included in that inventory. The concrete runtime library behind `&lib1` is not. Job descriptions, schedules, and user profiles are not in the checkout.
 
 ### Questions closed from this checkout
 
@@ -264,6 +264,14 @@ These questions can be answered from members that are already here. They do not 
 **`ORD500C` and `ORD500O` are not program `ORD500`.** `QCLSRC/ORD500C.PGM.CLLE` accepts an order and a path, builds the stream-file name `Custord` plus that order plus `.pdf`, and runs `CVTSPLPDF` on printer file `ORD500O`. That explains the CL program and the printer file. It does not explain the external program call `ORD500`.
 
 **`QTRGSRC` and `QTESTSRC` are outside the default build.** The root `Rules.mk` subdirectory list does not include them. `QTRGSRC/Rules.mk` exists, so `ORD700A`, `ORD700D`, and `ORD700U` are not compiled by a default `makei build`. `QTESTSRC` has two RPGUnit tests and no `Rules.mk`, so those tests are not compiled by that build either. `iproj.json` names library `RPGUNIT`. That product is not in this checkout.
+
+**Compile CCSID for a program with no source member of its own comes from the manifest directory.** `CHS` uses `935` from `globalization/CHS/.ibmi.json`. `DEU` uses `273` from `globalization/DEU/.ibmi.json`. `PWD`, `PUTIFSCHK`, `ANZ_FILE`, `ANZ_FILE2`, and `TMPDETORD` have no nearer file, so they use `37` from the root `.ibmi.json`. `TMPDETORD` is created by `CPYF` and that recipe does not set a file CCSID. No file states which language a CCSID number represents.
+
+**`QUSCRTUS`, `QUSPTRUS`, and `QCMDEXC` are IBM-supplied programs.** The prototypes are in `QPROTOSRC/APICALL-Prototypes_for_Ibm_API.RPGLEINC` and, for `QCMDEXC`, also in `QPROTOSRC/txt.rpgleinc`. The program bodies are not members of this checkout.
+
+**`ISOTODATE.SRVPGM` and `ISOTODATE4.SRVPGM` are commented out.** `QSQLSRC/Rules.mk` prefixes both rules with `#`. The function members `ISOTODATE.SQLUDF` and `ISOTODATE4.SQLUDF` are still in the checkout. They are not active service-program targets.
+
+**The binding directory member and its make rule are different lists.** `QBNDSRC/SAMPLE.BNDDIR` is the `ADDBNDDIRE` list. `QBNDSRC/Rules.mk` is the build-prerequisite list and omits `ORDER`, `XSS`, and `FVAT`. `ORDER` and `XSS` have no service-program target. `FVAT.SRVPGM` is built under `functionsVAT`.
 
 ### Questions that stay open
 
@@ -278,7 +286,6 @@ A name is Confirmed Missing when no member or `Rules.mk` target in this checkout
 | `ARTQRY` | Menu option 12 | Article by Last Order Date | The command is an IBM external. The query is absent here | The query definition is not in the tree. |
 | `SAMLOG` | Menu option 84 | Display Application log | The `ADSPUSRSPC` command is an IBM external. The user space is absent here | No user-space source is in the checkout. |
 | `&lib1` | `iproj.json` | Build | Unresolved | The repository has the token only. Editor actions pass `lib1=&CURLIB`. The production library name is not stored. |
-| `SAMPLE.BNDDIR` versus `QBNDSRC/Rules.mk` | Binding directory and its build rule | Service programs used at bind time | Partially Confirmed | Both lists are in source and they differ. Which list is installed is not in the checkout. |
 | `makei build` result | `iproj.json` | Build | Unresolved | The command is stored. This pass did not run it. It needs an IBM i system. |
 | SME sign-off | This package | All of the open rows | Not obtained | Cursor cannot sign for a subject-matter expert. |
 
@@ -294,7 +301,7 @@ Confirmed from `iproj.json` and the root `Rules.mk`:
 - `QTESTSRC` has two RPGUnit tests and no `Rules.mk`. A default build does not compile them. `iproj.json` names library `RPGUNIT`. That product is not in this checkout.
 - CCSID comes from the nearest `.ibmi.json`. Root is 37. RPG, SQL, and prototype directories that carry their own file use 297. CL, COBOL, commands, and `functionsVAT` use 500. `globalization/CHS` uses 935, `globalization/DEU` uses 273, and `globalization/HEB` uses 424. The checkout does not state which language a CCSID number represents.
 
-`QBNDSRC/Rules.mk` lists service programs `XML`, `TXT`, `FARTICLE`, `FCUSTOMER`, `FFAMILLY`, `FPARAMETER`, `FPROVIDER`, and `LOG`. `QBNDSRC/SAMPLE.BNDDIR` also names `ORDER`, `XSS`, and `FVAT`. Both lists are kept. Which list the system binding directory uses is Partially Confirmed and needs a build engineer.
+`QBNDSRC/SAMPLE.BNDDIR` is the `ADDBNDDIRE` list, including `ORDER`, `XSS`, and `FVAT`. `QBNDSRC/Rules.mk` is the shorter build-prerequisite list. `ORDER` and `XSS` have no service-program target in this checkout. `FVAT.SRVPGM` is built under `functionsVAT`.
 
 This documentation pass did not run `makei build`. The build result on IBM i is Unresolved. The .NET tests under `dotnet/cobol-modernization/` check the COBOL slice only. They are not an IBM i build result.
 
@@ -331,11 +338,24 @@ The prompt names six responsibilities. This repository already has skills for th
 | Discovery | `ibmi-source-inventory` and `.cursor/rules/ibmi-doc-discovery.mdc` |
 | Dependency analysis | `ibmi-build-dependency-analysis` |
 | Business-rule extraction | `ibmi-program-analysis`, `ibmi-data-definition-analysis`, and `ibmi-interface-analysis` |
-| Documentation generation | `scripts/generate_legacy_docs.js`. `ibmi-app-documentation` is only for `docs/application/` when that package is requested |
+| Documentation generation | `scripts/generate_legacy_docs.js` and `ibmi-app-documentation` for `docs/application/` |
 | Validation | `scripts/validate_documentation_coverage.py` and `.cursor/rules/ibmi-doc-coverage.mdc` |
 | Reporting | `docs/audit/`, `docs/final-review/`, and `docs/tracking/` |
 
-`tobi-makei`, `tobi-rpgle`, and `tobi-rpgunit` are coding conventions. They are not evidence. This pass did not change IBM i source or those coding skills.
+`tobi-makei`, `tobi-rpgle`, and `tobi-rpgunit` are coding conventions. They are not evidence. This run did not change IBM i source, `Rules.mk`, `iproj.json`, or those coding skills.
+
+### Skills execution
+
+The documentation skills were run against this checkout. That run is complete.
+
+| Step | Result |
+| --- | --- |
+| `ibmi-source-inventory` check | 352 files classified, 0 unclassified, 139 active build targets |
+| `ibmi-app-documentation` | [application/README.md](application/README.md) regenerated: 187 object pages, 9 chapters, 9 open questions in [application/07-open-questions.md](application/07-open-questions.md) |
+| `scripts/generate_legacy_docs.js` | 611 inventory rows, 76 program specifications, 23 business rules, 131 dependency rows, 13 missing-dependency rows, 814 database field or statement rows |
+| `scripts/validate_documentation_coverage.py` | 0 structural failures. 610 files on disk. Tracker: 600 Completed, 5 Partially Completed, 6 Not Applicable |
+
+Fourteen questions previously listed by the application package were closed from source in this run. The answers are under [Questions closed from this checkout](#questions-closed-from-this-checkout). Nine questions remain in [application/07-open-questions.md](application/07-open-questions.md): program `ORD500` at four call sites, `QTRGSRC` outside the default build, the concrete library name behind `&lib1`, program `CUS200`, program `pro203`, and the language name of each CCSID number. Query Manager objects, user space `SAMLOG`, the `makei build` result, the Excel workbook, and SME sign-off also stay open. They are in [Questions that stay open](#questions-that-stay-open).
 
 ### Excel workbook
 
@@ -346,7 +366,7 @@ No workbook was written. The checkout has no IBM i screen images, and this pass 
 | Check | Result |
 | --- | --- |
 | `python scripts/validate_documentation_coverage.py` | 0 structural failures. 13 unresolved or missing dependency rows remain |
-| Inventory matches the working tree | 588 rows, including `.git`. 587 files on disk |
+| Inventory matches the working tree | 611 rows, including `.git`. 610 files on disk |
 | `makei build` | Not run. It needs an IBM i environment |
 | Workbook compared to source | Skipped. No workbook exists |
 | SME sign-off | Not obtained |
@@ -368,15 +388,15 @@ No workbook was written. The checkout has no IBM i screen images, and this pass 
 
 ### Findings and limitations
 
-Closed from this checkout: the menu and file layouts, the order-entry path through `ORD100`, the provider module `PRO201` and the files named by its `COPY DDS-` statements, the separate roles of `ORD500C` and `ORD500O`, and the reason `QTRGSRC` and `QTESTSRC` are outside a default build.
+The skills execution run is complete. Closed from this checkout: the menu and file layouts, the order-entry path through `ORD100`, the provider module `PRO201` and the files named by its `COPY DDS-` statements, the separate roles of `ORD500C` and `ORD500O`, compile CCSID for targets that have no source member of their own, the IBM prototypes for `QUSCRTUS`, `QUSPTRUS`, and `QCMDEXC`, the commented `ISOTODATE` service-program rules, the separate roles of `SAMPLE.BNDDIR` and `QBNDSRC/Rules.mk`, and the reason `QTRGSRC` and `QTESTSRC` are outside a default build.
 
-Still open, and listed above: program `ORD500`, program `CUS200`, program `pro203`, the Query Manager objects, user space `SAMLOG`, the production library name, which binding-directory list is installed, and the result of `makei build`. No SME has signed this package. PDF output and an Excel workbook are not part of this delivery. Application source was not modified to produce these pages.
+Still open, and listed above: program `ORD500`, program `CUS200`, program `pro203`, the Query Manager objects, user space `SAMLOG`, the production library name, the language name of each CCSID number, and the result of `makei build`. No SME has signed this package. PDF output and an Excel workbook are not part of this delivery. Application source was not modified to produce these pages.
 
 ## Documentation package
 
 These are the points required for this checkout. Each row names the file that holds that point and the result of the latest coverage run. A source fact the checkout does not contain stays Unresolved in the linked file. The same map is also in [audit/prompt-coverage.md](audit/prompt-coverage.md).
 
-Latest run of `python scripts/validate_documentation_coverage.py`: **588** inventory rows, **587** files on disk, **76** program specifications, **23** business rules, **131** dependency rows, **13** unresolved or missing dependency rows, **814** database field or statement rows, **0** validation failures. PDF generation is outstanding. The Markdown package is the delivered form. The extra inventory rows are the COBOL-to-.NET files under `dotnet/cobol-modernization/`.
+Latest run of `python scripts/validate_documentation_coverage.py`: **611** inventory rows, **610** files on disk, **76** program specifications, **23** business rules, **131** dependency rows, **13** unresolved or missing dependency rows, **814** database field or statement rows, **0** validation failures. PDF generation is outstanding. The Markdown package is the delivered form. The inventory includes `docs/application/` and the COBOL-to-.NET files under `dotnet/cobol-modernization/`.
 
 ### Repository inventory
 
@@ -384,20 +404,20 @@ Every file in the working tree has an inventory row. Columns are relative path, 
 
 | Point | Page | Result |
 | --- | --- | --- |
-| Full inventory | [inventory/source-file-inventory.md](inventory/source-file-inventory.md) and [inventory/source-file-inventory.csv](inventory/source-file-inventory.csv) | Confirmed. 588 rows |
+| Full inventory | [inventory/source-file-inventory.md](inventory/source-file-inventory.md) and [inventory/source-file-inventory.csv](inventory/source-file-inventory.csv) | Confirmed. 611 rows |
 | Counting method and category totals | [inventory/file-type-summary.md](inventory/file-type-summary.md) | Confirmed |
 | Binary and unparsed files | Inventory rows whose requirement is `not-applicable` | Confirmed. 6 tracker rows are Not Applicable |
 
 ### Existing documentation audit
 
-`docs/application/` is the earlier package. This run did not delete it.
+`docs/application/` was regenerated by the skills execution run. It was not deleted.
 
 | Point | Page | Result |
 | --- | --- | --- |
 | Review of README files and existing docs | [audit/existing-documentation-review.md](audit/existing-documentation-review.md) | Confirmed |
 | Local link check | [audit/documentation-link-audit.csv](audit/documentation-link-audit.csv) | Confirmed. The coverage script reported no broken local links |
 | Missing, empty, and incomplete pages | [audit/documentation-gaps.md](audit/documentation-gaps.md) | Confirmed |
-| Earlier package | [application/README.md](application/README.md) | Kept |
+| Application package | [application/README.md](application/README.md) | Regenerated. 187 object pages, 9 chapters, 9 open questions |
 
 ### Program specifications
 
@@ -465,8 +485,8 @@ A name that is not a filename was searched against object names, member stems, a
 | Point | Page | Result |
 | --- | --- | --- |
 | Rule for later documentation sessions | [../.cursor/rules/legacy-documentation.mdc](../.cursor/rules/legacy-documentation.mdc) | Confirmed |
-| One tracker row per inventoried file | [tracking/documentation-execution-tracker.csv](tracking/documentation-execution-tracker.csv) | Confirmed. 588 rows |
-| Batch summary | [tracking/documentation-execution-summary.md](tracking/documentation-execution-summary.md) | Confirmed. 577 Completed, 5 Partially Completed, 6 Not Applicable |
+| One tracker row per inventoried file | [tracking/documentation-execution-tracker.csv](tracking/documentation-execution-tracker.csv) | Confirmed. 611 rows |
+| Batch summary | [tracking/documentation-execution-summary.md](tracking/documentation-execution-summary.md) | Confirmed. 600 Completed, 5 Partially Completed, 6 Not Applicable |
 
 ### Coverage validation
 
